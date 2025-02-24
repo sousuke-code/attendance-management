@@ -9,15 +9,14 @@ const slackApp = new App({
 })
 
 export const config = {
-    runtime: 'experimental-edge',
+    runtime: 'nodejs',
 }
 
 
-export default async function handler(req: NextResponse) {
+export default async function handler(req: NextRequest) {
     if (req.method === "POST") {
         try {
             const result = await slackApp.client.chat.postMessage({
-             token: process.env.SLACK_BOT_TOKEN,
              channel: "C08EQ5V056W",
              text: "Hello, World!"
             });
