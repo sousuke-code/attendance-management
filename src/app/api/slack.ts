@@ -13,29 +13,31 @@ export const config = {
 
 
 export default async function handler(req: NextRequest) {
-    if (req.method === "POST") {
-        try {
-            const result = await slackApp.client.chat.postMessage({
-             channel: "C08EQ5V056W",
-             text: "Hello, World!"
-            });
+   if (req.method === "POST") {
+    return new NextResponse(null, { status: 405});
+   }
 
-            return new NextResponse(JSON.stringify(result), {
-                status: 200,
-                headers: {
-                    'Content-Type' : 'application/json',
-                },
-            });
-        } catch (error) {
-            console.error(error);
-            return new NextResponse(JSON.stringify({ error : 'メッセージの送信に失敗しました。'}), {
-                status: 500,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        } 
-    } else {
-        return new NextResponse(null, { status: 405});
-    }
+   const body = await req.json();
+
+   if(body.challenge){
+    return new NextResponse(JSON.stringify({ challenge: body.challenge }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+   }
+
+   if (body.event?.type === "app_mention") {
+    try{
+        await slackApp.client.chat,postMessage({
+            channel: body.event.channel,
+            text: `こんにちは、<@${body.event.user}>さん！`
+        });
+
+        return new NextResponse(JSON.stringify({ message: "OK" }), {status: 200})
+   } catch (error) {
+    console.error(error);
+    return new NextResponse(JSON.stringify({ message: "Error" }), {status: 500})
+   }
+}
+    return new NextResponse(null, { status: 200 });
 }
