@@ -1,5 +1,4 @@
 import { App } from "@slack/bolt";
-import { Noto_Sans_Tamil_Supplement } from "next/font/google";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
