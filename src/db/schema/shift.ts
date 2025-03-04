@@ -22,6 +22,7 @@ export const shiftSwapLists = pgTable('shiftSwapList', {
     id: serial().primaryKey(),
     requesterId: integer().references(() => teachers.id),
     receiverId: integer().references(() => teachers.id),
+    studentsId: integer().references(() => students.id),
     shiftId: integer().notNull().references(() => shifts.id),
     reason: text().notNull(),
     status: varchar({ enum: ['pending', 'approved', 'rejected'] }).notNull(),

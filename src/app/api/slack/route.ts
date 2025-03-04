@@ -13,6 +13,7 @@ import { ModalView } from "@slack/web-api";
 export async function POST(req: NextRequest) {
   try {
     const bodyText = await req.text();
+    console.log(bodyText);
     const params = new URLSearchParams(bodyText);
 
     const body = Object.fromEntries(params.entries());
@@ -98,14 +99,16 @@ export async function POST(req: NextRequest) {
       ) {
 		console.log("申請理由を取得中...");
         const data = JSON.parse(payload.view.private_metadata);
+        console.log("data:",data);
         const shiftId = data.id;
+        const studentId = data.studentId;
 
         const values = payload.view.state.values;
         const reason = values["reason_block"]["reason_input"].value;
 
         console.log("シフトID:", shiftId);
         console.log("申請理由:", reason);
-		await createShiftSwapList(shiftId, reason);
+		await createShiftSwapList(shiftId,studentId, reason);
 
 		return NextResponse.json({
 			response_action: "clear"

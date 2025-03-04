@@ -1,0 +1,2 @@
+ALTER TABLE "shiftSwapList" ADD COLUMN "studentsId" integer;--> statement-breakpoint
+ALTER TABLE "shiftSwapList" ADD CONSTRAINT "shiftSwapList_studentsId_student_id_fk" FOREIGN KEY ("studentsId") REFERENCES "public"."student"("id") ON DELETE no action ON UPDATE no action;
