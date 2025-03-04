@@ -5,6 +5,7 @@ import { ReasultModal } from "../../../../lib/ResultModalSlack";
 import { findShifts } from "@/repositories/shift";
 import { confirmationModal } from "../../../../lib/ConfirmationModal";
 import { createShiftSwapList } from "@/repositories/shift";
+import { getRecurutingShiftSwapList } from "@/repositories/shift";
 
 const slackClient = new WebClient(process.env.SLACK_TOKEN);
 
@@ -12,12 +13,15 @@ import { ModalView } from "@slack/web-api";
 
 export async function POST(req: NextRequest) {
   try {
-    const bodyText = await req.text();
-    console.log(bodyText);
-    const params = new URLSearchParams(bodyText);
+    let body:any;
 
-    const body = Object.fromEntries(params.entries());
-    console.log("body:", body);
+    if(req.headers.get("content-type") === "application/json"){
+      body = await req.json();
+    } else {
+      const bodyText = await req.text();
+      const params = new URLSearchParams(bodyText);
+      body = Object.fromEntries(params.entries());
+    }
 
     if (body.type === "url_verification") {
       return NextResponse.json({ challenge: body.challenge });
@@ -114,6 +118,22 @@ export async function POST(req: NextRequest) {
 			response_action: "clear"
 		})
       }
+    }
+
+    if(body.action === "send_shift_notifications") {
+      console.log("シフト募集一覧を送信中...");
+      const swapShiftLists = await getRecurutingShiftSwapList();
+
+      const message = swapShiftLists.map(shift =>
+        `📅 *日付:* ${shift.shiftDate}\n🕒 *時間:* ${shift.shiftTime}\n👤 *スタッフ:* ${shift.requesterName}`
+      ).join("\n\n");
+
+      await slackClient.chat.postMessage({
+        channel: "C08EQ5V056W",
+        text: message,
+      });
+
+      return NextResponse.json({ message: "シフト募集一覧を送信しました" });
     }
 
     return NextResponse.json({ message: "No command founf" });
