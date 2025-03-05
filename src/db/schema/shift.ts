@@ -25,8 +25,18 @@ export const shiftSwapLists = pgTable('shiftSwapList', {
     studentsId: integer().references(() => students.id),
     shiftId: integer().notNull().references(() => shifts.id),
     reason: text().notNull(),
-    status: varchar({ enum: ['pending', 'approved', 'rejected'] }).notNull(),
+    status: varchar({ enum: ['pending', 'approved', 'rejected','applying'] }).notNull(),
 })
+
+export interface ShiftSwapListInfo extends ShiftSwapList {
+    requesterName: string | null;
+    receiverName: string | null;
+    studentName: string | null;
+    shiftDate: string | null;
+    shiftTime: string | null;
+    subjectsName: string | null;
+    date: string | null;
+}
 
 
 export type Shift = typeof shifts.$inferSelect;

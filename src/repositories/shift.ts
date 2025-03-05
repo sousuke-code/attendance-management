@@ -122,3 +122,8 @@ export async function getRecurutingShiftSwapList(){
   .leftJoin(students, eq(shiftSwapLists.studentsId, students.id))
   .where(eq(shiftSwapLists.status, "pending"));
 }
+
+
+export async function updateSwapListsStatus(id: number){
+  return db.update(shiftSwapLists).set({ status: "applying" }).where(eq(shiftSwapLists.id, id));
+}
