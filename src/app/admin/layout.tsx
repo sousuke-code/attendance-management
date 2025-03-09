@@ -23,8 +23,10 @@ export default async function AdminLayout({
       <div className="grid grid-cols-[auto,1fr]"> 
         <div className="border-r">
           <nav>
-            <ul>
+            <ul className="font-bold">
               <ListItem href="/admin/shiftTrades">シフト交換申請一覧</ListItem>
+              <ListItem href="/admin/shiftSwapLists">承諾待ちリスト</ListItem>
+              <ListItem href="/admin/shift/new">シフトを作成する</ListItem>
             </ul>
           </nav>
         </div>
