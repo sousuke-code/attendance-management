@@ -1,8 +1,9 @@
-import { pgTable, serial, text, varchar, integer,date } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, integer,date,timestamp,time } from "drizzle-orm/pg-core";
 import { teachers } from "./teacher";
 import { students } from "./student";
 import { subjects } from "./subject";
 import { timestamps } from "./commmon";
+import { seats } from "./seat";
 
 export const shifts = pgTable('shift', {
     id: serial().primaryKey(),
@@ -10,12 +11,15 @@ export const shifts = pgTable('shift', {
     date: date().notNull(),
     shiftId: integer().notNull().references(() => shiftOptions.id),
     subjectId: integer().notNull().references(() => subjects.id),
+    seatId: integer().references(() => seats.id),
     ...timestamps,
 })
 
 export const shiftOptions = pgTable('shiftOption', {
     id: serial().primaryKey(),
     shiftTime: varchar().notNull(),
+    startAt: time(),
+    endAt: time(),
 });
 
 export const shiftSwapLists = pgTable('shiftSwapList', {

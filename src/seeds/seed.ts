@@ -4,6 +4,7 @@ import { students } from "@/db/schema/student";
 import { subjects, teachersSubjects } from "@/db/schema/subject";
 import { teachers } from "@/db/schema/teacher";
 import { shiftOptions, shifts, shiftSwapLists, } from "@/db/schema/shift";
+import { classRooms } from "@/db/schema/classroom";
 
 
 async function seed() {
@@ -96,6 +97,19 @@ async function seed() {
             subjectId: seedSubjects[2].id,
         },
     ]);
+
+    const seedClassRooms = await db.insert(classRooms).values([
+        {
+            id: 1,
+            name: "A教室",
+            capacity: 50,
+        },
+        {
+            id: 2,
+            name: "B教室",
+            capacity: 50,
+        }
+    ])
 }
 
 seed().catch((error) => console.error(error));
