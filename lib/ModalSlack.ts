@@ -5,6 +5,7 @@ import { getStudens } from "@/repositories/user";
 
 const shiftOptions = await getShiftOptions();
 const students = await getStudens();
+const today = new Date();	
 
 const shiftOptionsForModal = shiftOptions.map((option: any) => ({
   text: {
@@ -60,7 +61,7 @@ export const shiftModal: ModalView = {
 			},
 			"accessory": {
 				"type": "datepicker",
-				"initial_date": "1990-04-28",
+				"initial_date": `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`,
 				"placeholder": {
 					"type": "plain_text",
 					"text": "Select a date",
@@ -88,24 +89,5 @@ export const shiftModal: ModalView = {
 				"emoji": true
 			}
 		},
-		{
-			"type": "input",
-            "block_id": "student_name_block",
-			"element": {
-				"type": "multi_static_select",
-				"placeholder": {
-					"type": "plain_text",
-					"text": "Select options",
-					"emoji": true
-				},
-				"options": studentsOptionsForModal,
-				"action_id": "multi_static_select-action"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "生徒名",
-				"emoji": true
-			}
-		}
 	]
 }

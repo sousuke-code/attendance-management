@@ -34,7 +34,7 @@ import {
                 <TableCell>{shiftSwap.shiftTime} ( {shiftSwap.shiftId}コマ目 )</TableCell>
                 <TableCell>{shiftSwap.subjectsName}</TableCell>
                 <TableCell>{shiftSwap.studentName}</TableCell>
-                <TableCell>{shiftSwap.receiverName}</TableCell>
+                <TableCell>{shiftSwap.requesterName}</TableCell>
                 <TableCell>{shiftSwap.reason}</TableCell>
               </TableRow>
             </TableBody>

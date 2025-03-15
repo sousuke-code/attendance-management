@@ -1,0 +1,1 @@
+ALTER TABLE "shift" ALTER COLUMN "studentId" DROP NOT NULL;

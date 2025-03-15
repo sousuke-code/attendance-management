@@ -57,6 +57,69 @@
       "when": 1741092725105,
       "tag": "0007_massive_captain_america",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1741699517590,
+      "tag": "0008_early_shatterstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1741703375389,
+      "tag": "0009_slimy_mercury",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1741703412268,
+      "tag": "0010_unusual_goblin_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1741703446487,
+      "tag": "0011_material_corsair",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1741879215430,
+      "tag": "0012_bored_kat_farrell",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1741879490889,
+      "tag": "0013_pink_jasper_sitwell",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1741880190466,
+      "tag": "0014_great_bug",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1741880472288,
+      "tag": "0015_early_captain_midlands",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1741881178241,
+      "tag": "0016_luxuriant_mad_thinker",
+      "breakpoints": true
     }
   ]
 }
