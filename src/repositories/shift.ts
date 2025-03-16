@@ -17,6 +17,18 @@ export async function getShiftOptions() {
 //   return db.select().from(shifts).where(eq(shiftOptions))
 // }
 
+export async function getShiftDetailsById(id:number){
+  return db.select().from(shiftDetails).where(eq(shiftDetails.id, id))
+}
+
+export async function getShiftById(id: number) {
+  return (await db.select().from(shifts).where(eq(shifts.id, id)));
+}
+
+export async function getShiftOptionById(id: number){
+  return db.select().from(shiftOptions).where(eq(shiftOptions.id, id));
+}
+
 export async function createShiftSwapList(shiftId: number, studentId: number,reeason: string,teacherId: number) {
   return db.insert(shiftSwapLists).values({
     shiftId: shiftId,

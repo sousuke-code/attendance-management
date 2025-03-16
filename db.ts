@@ -4,8 +4,13 @@ import postgres from "postgres";
 
 config({ path: ".env.local" });
 
-const dbUrl = process.env.NEXT_PUBLIC_DB_URL;
+const dbUrl = process.env.DATABASE_URL;
 if (!dbUrl) {
   throw new Error("Database URL is not defined");
 }
 export const db = drizzle(dbUrl);
+
+export type DB = Pick< 
+  typeof db,
+  "query" | "select" | "insert" | "update" | "delete" | "transaction"
+>;

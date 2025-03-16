@@ -95,6 +95,12 @@ async function seed() {
             shiftId: seedShiftOptions[2].id,
             subjectId: seedSubjects[2].id,
         },
+        {
+            date: new Date("2025-04-01").toISOString(),
+            studentId: seedStudents[1].id,
+            shiftId: seedShiftOptions[3].id,
+            subjectId: seedSubjects[3].id,
+        }
     ]);
 }
 

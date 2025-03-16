@@ -40,7 +40,8 @@ export default async function shiftSwapListsPage() {
                         <TableCell>{shift.reason}</TableCell>
                         <TableCell>
                       <form action={approveShiftSwapAction} > 
-                            <input type="hidden" value={shift.id} name="shiftId"/>
+                            <input type="hidden" value={shift.id} name="shiftSwapId"/>
+                            <input type="hidden" value={shift.shiftId} name="shiftId" />
                             <input type="hidden" value={shift.receiverId} name="receiverId"/>
                             <Button className="font-bold bg-blue-500">承認する</Button>
                       </form>
