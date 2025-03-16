@@ -4,6 +4,7 @@ import { students } from "./student";
 import { subjects } from "./subject";
 import { timestamps } from "./commmon";
 import { sql } from "drizzle-orm";
+import { request } from "http";
 
 export const shifts = pgTable('shift', {
     id: serial().primaryKey(),
@@ -28,6 +29,7 @@ export const shiftSwapLists = pgTable('shiftSwapList', {
     shiftId: integer().notNull().references(() => shifts.id),
     reason: text().notNull(),
     status: varchar({ enum: ['pending', 'approved', 'rejected','applying'] }).notNull(),
+    ...timestamps,
 })
 
 export const shiftDetails = pgView('shiftDetail', {
@@ -60,6 +62,51 @@ export const shiftDetails = pgView('shiftDetail', {
     `
 );
 
+export const shiftSwapDetails = pgView('shiftSwapDetails', {
+    id: integer().notNull(),
+    requesterId: integer().notNull(),
+    requesterName: varchar().notNull(),
+    receiverId: integer().notNull(),
+    receiverName: varchar().notNull(),
+    studentId: integer().notNull(),
+    studentName: varchar().notNull(),
+    shiftId: integer().notNull(),
+    shiftDate: date().notNull(),
+    shiftTime: varchar().notNull(),
+    subjectId: integer().notNull(),
+    subjectsName: varchar().notNull(),
+    reason: text().notNull(),
+    status: varchar().notNull(),
+    ...timestamps,
+}).as(
+    sql`
+     SELECT
+        ssl.id as id,
+        ssl."requesterId" as "requesterId",
+        t1.name as "requesterName",
+        ssl."receiverId" as "receiverId",
+        t2.name as "receiverName",
+        ssl."studentsId" as "studentId",
+        st.name as "studentName",
+        ssl."shiftId" as "shiftId",
+        s.date as "shiftDate",
+        so."shiftTime" as "shiftTime",
+        s."subjectId" as "subjectId",
+        su.name as "subjectsName",
+        ssl.reason as reason,
+        ssl.status as status,
+        ssl."createdAt" as "createdAt",
+        ssl."updatedAt" as "updatedAt"
+    FROM ${shiftSwapLists} ssl
+    LEFT JOIN ${teachers} t1 ON ssl."requesterId" = t1.id
+    LEFT JOIN ${teachers} t2 ON ssl."receiverId" = t2.id
+    LEFT JOIN ${students} st ON ssl."studentsId" = st.id
+    LEFT JOIN ${shifts} s ON ssl."shiftId" = s.id
+    LEFT JOIN ${shiftOptions} so ON s."shiftId" = so.id
+    LEFT JOIN ${subjects} su ON s."subjectId" = su.id   
+    `
+)
+
 export interface ShiftSwapListInfo extends ShiftSwapList {
     requesterName: string | null;
     receiverName: string | null;
@@ -73,3 +120,4 @@ export interface ShiftSwapListInfo extends ShiftSwapList {
 export type ShiftDetail = typeof shiftDetails.$inferSelect;
 export type Shift = typeof shifts.$inferSelect;
 export type ShiftSwapList = typeof shiftSwapLists.$inferSelect;
+export type ShiftSwapDetail = typeof shiftSwapDetails.$inferSelect;

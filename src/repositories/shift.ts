@@ -8,6 +8,9 @@ import { teachers } from "@/db/schema/teacher";
 import { create } from "domain";
 import { shiftDetails } from "@/db/schema/shift";
 import type { ShiftDetail } from "@/db/schema/shift";
+import type { ShiftSwapDetail } from "@/db/schema/shift";
+import { shiftSwapDetails } from "@/db/schema/shift";
+
 
 export async function getShiftOptions() {
   return db.select().from(shiftOptions);
@@ -18,7 +21,7 @@ export async function getShiftOptions() {
 // }
 
 export async function getShiftDetailsById(id:number){
-  return db.select().from(shiftDetails).where(eq(shiftDetails.id, id))
+  return db.select().from(shiftDetails).where(eq(shiftDetails.id,id))
 }
 
 export async function getShiftById(id: number) {
@@ -75,61 +78,12 @@ export async function findShiftsByUser(email: string, shiftOption: number[], shi
 
 
 export async function getShiftSwapLists(){
-    const requesters = aliasedTable(teachers, "requesters");
-    const receivers = aliasedTable(teachers, "receivers");
-    return db.select({
-        id: shiftSwapLists.id,
-        requesterId: shiftSwapLists.requesterId,
-        requesterName: requesters.name,
-        receiverId: shiftSwapLists.receiverId,
-        receiverName: receivers.name,
-        studentId: students.id,
-        studentName: students.name,
-        shiftId: shiftSwapLists.shiftId,
-        shiftDate: shifts.date,
-        shiftTime: shiftOptions.shiftTime,
-        subjectId: shifts.subjectId,
-        subjectsName: subjects.name,
-        reason: shiftSwapLists.reason,
-        status: shiftSwapLists.status,
-    })
-    .from(shiftSwapLists)
-    .leftJoin(requesters, eq(shiftSwapLists.requesterId, requesters.id))
-    .leftJoin(receivers, eq(shiftSwapLists.receiverId, receivers.id))
-    .leftJoin(shifts, eq(shiftSwapLists.shiftId, shifts.id))
-    .leftJoin(subjects, eq(shifts.subjectId, subjects.id))
-    .leftJoin(shiftOptions, eq(shifts.shiftId, shiftOptions.id))
-    .leftJoin(students, eq(shiftSwapLists.studentsId, students.id));
+    return db.select().from(shiftSwapDetails);
 }
 
 
 export async function getRecurutingShiftSwapList(){
-  const requesters = aliasedTable(teachers, "requesters");
-  const receivers = aliasedTable(teachers, "receivers");
-  return db.select({
-      id: shiftSwapLists.id,
-      requesterId: shiftSwapLists.requesterId,
-      requesterName: requesters.name,
-      receiverId: shiftSwapLists.receiverId,
-      receiverName: receivers.name,
-      studentId: students.id,
-      studentName: students.name,
-      shiftId: shiftSwapLists.shiftId,
-      shiftDate: shifts.date,
-      shiftTime: shiftOptions.shiftTime,
-      subjectId: shifts.subjectId,
-      subjectsName: subjects.name,
-      reason: shiftSwapLists.reason,
-      status: shiftSwapLists.status,
-  })
-  .from(shiftSwapLists)
-  .leftJoin(requesters, eq(shiftSwapLists.requesterId, requesters.id))
-  .leftJoin(receivers, eq(shiftSwapLists.receiverId, receivers.id))
-  .leftJoin(shifts, eq(shiftSwapLists.shiftId, shifts.id))
-  .leftJoin(subjects, eq(shifts.subjectId, subjects.id))
-  .leftJoin(shiftOptions, eq(shifts.shiftId, shiftOptions.id))
-  .leftJoin(students, eq(shiftSwapLists.studentsId, students.id))
-  .where(eq(shiftSwapLists.status, "pending"));
+  return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending"));
 }
 
 
@@ -140,30 +94,5 @@ export async function updateSwapListsStatus(id: number, reciverId: number){
 
 
 export async function getSwapListsForWaiting(){
-  const requesters = aliasedTable(teachers, "requesters");
-  const receivers = aliasedTable(teachers, "receivers");
-  return db.select({
-      id: shiftSwapLists.id,
-      requesterId: shiftSwapLists.requesterId,
-      requesterName: requesters.name,
-      receiverId: shiftSwapLists.receiverId,
-      receiverName: receivers.name,
-      studentId: students.id,
-      studentName: students.name,
-      shiftId: shiftSwapLists.shiftId,
-      shiftDate: shifts.date,
-      shiftTime: shiftOptions.shiftTime,
-      subjectId: shifts.subjectId,
-      subjectsName: subjects.name,
-      reason: shiftSwapLists.reason,
-      status: shiftSwapLists.status,
-  })
-  .from(shiftSwapLists)
-  .leftJoin(requesters, eq(shiftSwapLists.requesterId, requesters.id))
-  .leftJoin(receivers, eq(shiftSwapLists.receiverId, receivers.id))
-  .leftJoin(shifts, eq(shiftSwapLists.shiftId, shifts.id))
-  .leftJoin(subjects, eq(shifts.subjectId, subjects.id))
-  .leftJoin(shiftOptions, eq(shifts.shiftId, shiftOptions.id))
-  .leftJoin(students, eq(shiftSwapLists.studentsId, students.id))
-  .where(eq(shiftSwapLists.status, "applying"));
+  return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "applying"));
 }
