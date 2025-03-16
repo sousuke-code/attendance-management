@@ -6,7 +6,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { getSwapListsForWaiting } from "@/repositories/shift";
+import approveShiftSwapAction from "@/actions/admin/approveShiftSwapAction";
 
 
 export default async function shiftSwapListsPage() {
@@ -27,6 +29,7 @@ export default async function shiftSwapListsPage() {
                 </TableRow>
             </TableHeader>
             { shiftLists.map((shift) => (
+                shift.receiverId &&
                 <TableBody>
                     <TableRow>
                         <TableCell>{shift.shiftDate}</TableCell>
@@ -35,7 +38,14 @@ export default async function shiftSwapListsPage() {
                         <TableCell>{shift.studentName}</TableCell>
                         <TableCell>{shift.receiverName}</TableCell>
                         <TableCell>{shift.reason}</TableCell>
-                        <TableCell>...</TableCell>
+                        <TableCell>
+                      <form action={approveShiftSwapAction} > 
+                            <input type="hidden" value={shift.id} name="shiftSwapId"/>
+                            <input type="hidden" value={shift.shiftId} name="shiftId" />
+                            <input type="hidden" value={shift.receiverId} name="receiverId"/>
+                            <Button className="font-bold bg-blue-500">承認する</Button>
+                      </form>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             ))}

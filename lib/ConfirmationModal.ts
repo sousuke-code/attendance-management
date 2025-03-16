@@ -1,8 +1,7 @@
 import { ModalView } from "@slack/web-api";
-import { placeholder } from "drizzle-orm";
-import { ShiftsSlack } from "./ResultModalSlack";
+import { ShiftDetail } from "@/db/schema/shift";
 
-export const confirmationModal = (shift: ShiftsSlack) : ModalView => {
+export const confirmationModal = (shift: ShiftDetail) : ModalView => {
     console.log(shift);
     return {
     type: "modal",
@@ -30,8 +29,8 @@ export const confirmationModal = (shift: ShiftsSlack) : ModalView => {
                 type: "mrkdwn",
                 text: `申請の内容の確認\n
                 *生徒名:* ${shift.studentName}\n
-                *日付:* ${shift.date}\n
-                *コマ時間:* ${shift.shiftTime} (${shift.shiftId}コマ目)\n
+                *日付:* ${shift.shiftDate}\n
+                *コマ時間:* ${shift.shiftTime} (${shift.shiftTime}コマ目)\n
                 *科目名:* ${shift.subjectName}\n
                 `
             }

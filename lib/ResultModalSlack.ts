@@ -1,5 +1,5 @@
 import { ModalView } from "@slack/web-api";
-import type { Shift } from "@/db/schema/shift";
+import type { Shift, ShiftDetail } from "@/db/schema/shift";
 
 export interface ShiftsSlack extends Shift {
     shiftTime: string | null;
@@ -7,7 +7,7 @@ export interface ShiftsSlack extends Shift {
     subjectName: string | null;
 }
 
-export const ReasultModal = (shifts: ShiftsSlack[]): ModalView => {
+export const ReasultModal = (shifts: ShiftDetail[]): ModalView => {
 
     
     const shiftsBlock = shifts.length > 0
@@ -16,8 +16,8 @@ export const ReasultModal = (shifts: ShiftsSlack[]): ModalView => {
                 type: "section",
                 fields: [
                     { type: "mrkdwn", text: `*生徒名:*\n${shift.studentName}` },
-                    { type: "mrkdwn", text: `*日付:*\n${shift.date}` },
-                    { type: "mrkdwn", text: `*コマ時間:*\n${shift.shiftTime} (${shift.shiftId}コマ目)` },
+                    { type: "mrkdwn", text: `*日付:*\n${shift.shiftDate}` },
+                    { type: "mrkdwn", text: `*コマ時間:*\n${shift.shiftTime}` },
                     { type: "mrkdwn", text: `*科目名:*\n${shift.subjectName}` }
                 ]
             },

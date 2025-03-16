@@ -8,13 +8,17 @@ import { createShiftSwapList } from "@/repositories/shift";
 import { getRecurutingShiftSwapList } from "@/repositories/shift";
 import { applySwapListModal } from "../../../../lib/ApplySwapListModal";
 import { updateSwapListsStatus } from "@/repositories/shift";
+import { getUserEmail } from "@/repositories/slack";
+import { findShiftsByUser } from "@/repositories/shift";
+import { findTeacherByEmail } from "@/repositories/user";
 
-const slackClient = new WebClient(process.env.SLACK_TOKEN);
+export const slackClient = new WebClient(process.env.SLACK_TOKEN);
 
 export async function POST(req: NextRequest) {
   try {
     let body: any;
-
+    
+    let email: string | null = null;
     if (req.headers.get("content-type") === "application/json") {
       body = await req.json();
     } else {
@@ -39,9 +43,16 @@ export async function POST(req: NextRequest) {
       const payload = JSON.parse(body.payload);
       console.log("payload:", payload);
 
+      if(payload.user.id) {
+        email = await getUserEmail(payload.user.id);
+      }
+
+      console.log("email:", email);
+
       if (payload.type === "view_submission" && payload.view.callback_id === "shift_search") {
         const values = payload.view.state.values;
         console.log("values:", values);
+
 
         const selectedSlots = values["shift_date_block"]?.["datepicker-action"]?.selected_date;
         console.log("選択日時:", selectedSlots);
@@ -50,13 +61,13 @@ export async function POST(req: NextRequest) {
           .selected_options.map((slot: { value: string }) => Number(slot.value));
         console.log("選択コマ時間:", selectedTimeSlots);
 
-        const selectedStudents = values["student_name_block"]?.["multi_static_select-action"]
-          .selected_options.map((slot: { value: string }) => Number(slot.value));
-        console.log("選択生徒:", selectedStudents);
 
         // 検索されたシフトを表示
-        const shifts = await findShifts(selectedStudents, selectedSlots, selectedTimeSlots);
-        console.log(shifts);
+        if(!email) {
+          return NextResponse.json({ message: "Error: Email not found" });
+        }
+        const shifts = await findShiftsByUser(email, selectedTimeSlots, selectedSlots);
+       
 
         // 検索結果をモーダル表示
         const resultModal = ReasultModal(shifts);
@@ -74,7 +85,6 @@ export async function POST(req: NextRequest) {
       if (payload.type === "block_actions") {
         const action = payload.actions[0];
         console.log("確認モーダル表示中1...");
-        console.log(action);
 
         if (action.action_id.startsWith("apply_shift")) {
           const shiftData = JSON.parse(action.value);
@@ -113,9 +123,13 @@ export async function POST(req: NextRequest) {
         const values = payload.view.state.values;
         const reason = values["reason_block"]["reason_input"].value;
 
+        if(!email) return NextResponse.json({ message: "Error: Email not found" });
+        const teacher = await findTeacherByEmail(email);
+        const teacherId = teacher[0]?.id; 
+
         console.log("シフトID:", shiftId);
         console.log("申請理由:", reason);
-        await createShiftSwapList(shiftId, studentId, reason);
+        await createShiftSwapList(shiftId, studentId, reason, teacherId);
 
         return NextResponse.json({
           response_action: "clear",
@@ -126,7 +140,10 @@ export async function POST(req: NextRequest) {
         const data = JSON.parse(payload.view.private_metadata);
         console.log("data:", data);
         console.log("申請理由を取得中...");
-        await updateSwapListsStatus(data.id);
+        if(!email) return NextResponse.json({ message: "Error: Email not found" }); 
+        const receiver = await findTeacherByEmail(email);
+        const receiverId = receiver[0]?.id;
+        await updateSwapListsStatus(data.id, receiverId);
 
         return NextResponse.json({
           response_action: "clear",
@@ -158,6 +175,7 @@ export async function POST(req: NextRequest) {
 
       await slackClient.chat.postMessage({
         channel: "C08EQ5V056W",
+        text: "シフト募集一覧",
         blocks: blocks,
       });
 
@@ -169,4 +187,5 @@ export async function POST(req: NextRequest) {
     console.error("Error:", error);
     return NextResponse.json({ message: "Error processing request" });
   }
+
 }
