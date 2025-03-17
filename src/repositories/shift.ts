@@ -24,6 +24,7 @@ export async function getShiftDetailsById(id:number){
   return db.select().from(shiftDetails).where(eq(shiftDetails.id,id))
 }
 
+
 export async function getShiftById(id: number) {
   return (await db.select().from(shifts).where(eq(shifts.id, id)));
 }
@@ -81,6 +82,10 @@ export async function getShiftSwapLists(){
     return db.select().from(shiftSwapDetails);
 }
 
+export async function getShiftSwapListsByIds(ids:number[]): Promise<ShiftSwapDetail[]>{
+
+  return db.select().from(shiftSwapDetails).where(inArray(shiftSwapDetails.id, ids));
+}
 
 export async function getRecurutingShiftSwapList(){
   return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending"));

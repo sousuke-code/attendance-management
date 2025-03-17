@@ -16,8 +16,9 @@ export default async function shiftSwapListsPage() {
 
     return (
         <>
-        <Table>
-            <TableHeader>
+        <h1 className="text-2xl font-bold mb-4">シフト交換承認待ち一覧</h1>
+        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg">
+            <TableHeader className="bg-gray-200">
                 <TableRow>
                     <TableHead>日付</TableHead>
                     <TableHead>コマ</TableHead>
@@ -43,7 +44,8 @@ export default async function shiftSwapListsPage() {
                             <input type="hidden" value={shift.id} name="shiftSwapId"/>
                             <input type="hidden" value={shift.shiftId} name="shiftId" />
                             <input type="hidden" value={shift.receiverId} name="receiverId"/>
-                            <Button className="font-bold bg-blue-500">承認する</Button>
+                            <Button className="font-bold bg-blue-500 hover:bg-blue-700 mr-10">承認する</Button>
+                            <Button className="font-bold bg-red-500 hover:bg-red-700">拒否する</Button>
                       </form>
                         </TableCell>
                     </TableRow>
