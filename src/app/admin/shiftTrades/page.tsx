@@ -7,12 +7,16 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table";
+  import { toast } from "sonner";
+  
   import { Button } from "@/components/ui/button";
   import { Checkbox } from "@/components/ui/checkbox";
+  import { Toaster } from "sonner";
   import { differenceInCalendarDays, differenceInDays } from "date-fns";
   
   import { getShiftSwapLists } from "@/repositories/shift";
   import postShiftRecruitmentAction from "@/actions/shift/postShiftRecruitmentAction";
+  import RecruitmentButton from "@/components/RecruitmentButton";
   
   export default async function AdminPage() {
     const shiftSwapLists = await getShiftSwapLists();
@@ -20,8 +24,12 @@ import {
     return (
       <>
         <h1 className="text-2xl font-bold mb-4">シフト交換申請一覧</h1>
+        <Toaster 
+          position="top-right"
+          theme="light"
+        />
         <form action={postShiftRecruitmentAction}>
-        <Button className="mt-r bg-blue-500">シフト募集を呼びかける</Button>
+        <RecruitmentButton />
         <Table className="rounded-xl shadow-lg border-2 border-solid text-lg">
           <TableHeader className="bg-gray-200">
             <TableRow>

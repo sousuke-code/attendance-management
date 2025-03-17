@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getSwapListsForWaiting } from "@/repositories/shift";
 import approveShiftSwapAction from "@/actions/admin/approveShiftSwapAction";
+import RefuseShiftSwapModal from "@/components/RefuseShiftSwapModal";
 
 
 export default async function shiftSwapListsPage() {
@@ -39,14 +40,14 @@ export default async function shiftSwapListsPage() {
                         <TableCell>{shift.studentName}</TableCell>
                         <TableCell>{shift.receiverName}</TableCell>
                         <TableCell>{shift.reason}</TableCell>
-                        <TableCell>
+                        <TableCell className="flex gap-2">
                       <form action={approveShiftSwapAction} > 
                             <input type="hidden" value={shift.id} name="shiftSwapId"/>
                             <input type="hidden" value={shift.shiftId} name="shiftId" />
                             <input type="hidden" value={shift.receiverId} name="receiverId"/>
-                            <Button className="font-bold bg-blue-500 hover:bg-blue-700 mr-10">承認する</Button>
-                            <Button className="font-bold bg-red-500 hover:bg-red-700">拒否する</Button>
+                            <Button className="font-bold bg-blue-500 hover:bg-blue-700">承認する</Button>
                       </form>
+                     <RefuseShiftSwapModal id={shift.shiftId} />
                         </TableCell>
                     </TableRow>
                 </TableBody>

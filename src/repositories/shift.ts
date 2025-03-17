@@ -1,5 +1,5 @@
 import { eq, and, inArray,aliasedTable } from "drizzle-orm";
-import { db } from "../../db";
+import { DB, db } from "../../db";
 import { shifts, shiftOptions, shiftSwapLists } from "@/db/schema/shift";
 import { Id } from "@slack/web-api/dist/types/response/RtmStartResponse";
 import { students } from "@/db/schema/student";
@@ -79,7 +79,7 @@ export async function findShiftsByUser(email: string, shiftOption: number[], shi
 
 
 export async function getShiftSwapLists(){
-    return db.select().from(shiftSwapDetails);
+    return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending"));
 }
 
 export async function getShiftSwapListsByIds(ids:number[]): Promise<ShiftSwapDetail[]>{
@@ -94,7 +94,10 @@ export async function getRecurutingShiftSwapList(){
 
 export async function updateSwapListsStatus(id: number, reciverId: number){
   return db.update(shiftSwapLists).set({ status: "applying", receiverId: reciverId},).where(eq(shiftSwapLists.id, id));
+}
 
+export async function updateSwapListsStatusToRejected(tx:DB ,id:number){
+  return db.update(shiftSwapLists).set({ status: "rejected"}).where(eq(shiftSwapLists.shiftId, id));
 }
 
 
