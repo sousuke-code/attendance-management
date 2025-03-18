@@ -20,14 +20,21 @@ export default function ShiftListModal({shift}:{shift: ShiftSwapDetail}) {
                 <DialogHeader>
                     <DialogTitle>シフト詳細</DialogTitle>
                 </DialogHeader>
-                <div className="font-bold text-lg">
-                    <p>シフト日時: {shift.shiftDate}</p>
-                    <p>シフト時間: {shift.shiftTime}</p>
-                    <p>担当生徒名: {shift.studentName}</p>
-                    <p>科目: {shift.subjectsName}</p>
-                    <p>申請講師名: {shift.requesterName}</p>
-                    <p>交換講師名: {shift.receiverName}</p>
-                    <p>交換理由: {shift.reason}</p>
+                <div className="grid grid-cols-2 gap-4 text-lg font-medium">
+                    <p className="text-gray-500">シフト日時:</p>
+                    <p>{shift.shiftDate}</p>
+                    <p className="text-gray-500">シフト時間:</p>
+                    <p>{shift.shiftTime}</p>
+                    <p className="text-gray-500">担当生徒名:</p>
+                    <p>{shift.studentName}</p>
+                    <p className="text-gray-500">科目:</p>
+                    <p>{shift.subjectsName}</p>
+                    <p className="text-gray-500">申請講師名:</p>
+                    <p>{shift.requesterName}</p>
+                    <p className="text-gray-500">交換講師名:</p>
+                    <p>{shift.receiverName}</p>
+                    <p className="text-gray-500">交換理由:</p>
+                    <p >{shift.reason}</p>
                 </div>
             </DialogContent>
         </Dialog>
