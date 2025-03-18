@@ -14,7 +14,7 @@ export default function RefuseShiftSwapModal({ id } : { id: number }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>拒否する</Button>
+                <Button className="bg-red-500 hover:bg-red-600 font-bold">拒否する</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
