@@ -50,7 +50,5 @@ export default async function approveShiftSwapAction(formData: FormData) {
 
    //slack通知
    return redirect("/admin/shiftSwapLists");
-
-   //承認メッセージを遅らせる
 }
 

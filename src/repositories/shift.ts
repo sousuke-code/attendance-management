@@ -1,5 +1,5 @@
 import { eq, and, inArray,aliasedTable } from "drizzle-orm";
-import { db } from "../../db";
+import { DB, db } from "../../db";
 import { shifts, shiftOptions, shiftSwapLists } from "@/db/schema/shift";
 import { Id } from "@slack/web-api/dist/types/response/RtmStartResponse";
 import { students } from "@/db/schema/student";
@@ -23,6 +23,7 @@ export async function getShiftOptions() {
 export async function getShiftDetailsById(id:number){
   return db.select().from(shiftDetails).where(eq(shiftDetails.id,id))
 }
+
 
 export async function getShiftById(id: number) {
   return (await db.select().from(shifts).where(eq(shifts.id, id)));
@@ -78,9 +79,17 @@ export async function findShiftsByUser(email: string, shiftOption: number[], shi
 
 
 export async function getShiftSwapLists(){
-    return db.select().from(shiftSwapDetails);
+    return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending"));
 }
 
+export async function getShiftSwapListsByIds(ids:number[]): Promise<ShiftSwapDetail[]>{
+
+  return db.select().from(shiftSwapDetails).where(inArray(shiftSwapDetails.id, ids));
+}
+
+export async function getShiftSwapListsById(id: number){
+  return db.select().from(shiftSwapDetails).where(eq(shiftDetails.id, id));
+}
 
 export async function getRecurutingShiftSwapList(){
   return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending"));
@@ -89,7 +98,10 @@ export async function getRecurutingShiftSwapList(){
 
 export async function updateSwapListsStatus(id: number, reciverId: number){
   return db.update(shiftSwapLists).set({ status: "applying", receiverId: reciverId},).where(eq(shiftSwapLists.id, id));
+}
 
+export async function updateSwapListsStatusToRejected(tx:DB ,id:number){
+  return db.update(shiftSwapLists).set({ status: "rejected"}).where(eq(shiftSwapLists.shiftId, id));
 }
 
 

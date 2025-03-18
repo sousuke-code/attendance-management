@@ -30,7 +30,7 @@ export default async function AdminLayout({
             </ul>
           </nav>
         </div>
-      <div>{children}</div>
+      <div className="p-10">{children}</div>
       </div>
     </div>
   );

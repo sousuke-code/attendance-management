@@ -9,6 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { getSwapListsForWaiting } from "@/repositories/shift";
 import approveShiftSwapAction from "@/actions/admin/approveShiftSwapAction";
+import RefuseShiftSwapModal from "@/components/RefuseShiftSwapModal";
+import ShiftListModal from "@/components/shift/ShiftListModal";
 
 
 export default async function shiftSwapListsPage() {
@@ -16,15 +18,17 @@ export default async function shiftSwapListsPage() {
 
     return (
         <>
-        <Table>
-            <TableHeader>
+        <h1 className="text-2xl font-bold mb-4">シフト交換承認待ち一覧</h1>
+        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg">
+            <TableHeader className="bg-gray-200">
                 <TableRow>
-                    <TableHead>日付</TableHead>
-                    <TableHead>コマ</TableHead>
-                    <TableHead>科目</TableHead>
-                    <TableHead>生徒名</TableHead>
-                    <TableHead>申請講師名</TableHead>
-                    <TableHead>交換理由</TableHead>
+                    <TableHead className="font-bold">日付</TableHead>
+                    <TableHead className="font-bold">コマ</TableHead>
+                    <TableHead className="font-bold">科目</TableHead>
+                    <TableHead className="font-bold">生徒名</TableHead>
+                    <TableHead className="font-bold">申請講師名</TableHead>
+                    <TableHead className="font-bold">交換理由</TableHead>
+                    <TableHead></TableHead>
                     <TableHead></TableHead>
                 </TableRow>
             </TableHeader>
@@ -39,12 +43,16 @@ export default async function shiftSwapListsPage() {
                         <TableCell>{shift.receiverName}</TableCell>
                         <TableCell>{shift.reason}</TableCell>
                         <TableCell>
+                            <ShiftListModal shift={shift} />
+                        </TableCell>
+                        <TableCell className="flex gap-2">
                       <form action={approveShiftSwapAction} > 
                             <input type="hidden" value={shift.id} name="shiftSwapId"/>
                             <input type="hidden" value={shift.shiftId} name="shiftId" />
                             <input type="hidden" value={shift.receiverId} name="receiverId"/>
-                            <Button className="font-bold bg-blue-500">承認する</Button>
+                            <Button className="font-bold bg-blue-500 hover:bg-blue-700">承認する</Button>
                       </form>
+                     <RefuseShiftSwapModal id={shift.id} />
                         </TableCell>
                     </TableRow>
                 </TableBody>
