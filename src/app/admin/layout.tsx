@@ -27,6 +27,8 @@ export default async function AdminLayout({
               <ListItem href="/admin/shiftTrades">シフト交換申請一覧</ListItem>
               <ListItem href="/admin/shiftSwapLists">承諾待ちリスト</ListItem>
               <ListItem href="/admin/shift/new">シフトを作成する</ListItem>
+              <ListItem href="/admin/teacher">講師管理</ListItem>
+              <ListItem href="/admin/students">生徒管理</ListItem>
             </ul>
           </nav>
         </div>

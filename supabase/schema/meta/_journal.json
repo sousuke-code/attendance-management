@@ -141,6 +141,20 @@
       "when": 1742136895913,
       "tag": "0019_funny_roulette",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1742306163389,
+      "tag": "0020_nasty_scrambler",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1742310453112,
+      "tag": "0021_sweet_earthquake",
+      "breakpoints": true
     }
   ]
 }
