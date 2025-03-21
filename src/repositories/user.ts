@@ -19,3 +19,15 @@ export async function findTeacherByEmail(email: string){
 export async function findTeacherEmailById(id: number){
     return db.select().from(teachers).where(eq(teachers.id, id)).limit(1);
 }
+
+export async function getTeacherById(id: number){
+    return db.select().from(teachers).where(eq(teachers.id, id));
+}
+
+export async function getTeachers(){
+    return db.select().from(teachers);
+}
+
+export async function getStudents(){
+    return db.select().from(students);
+}

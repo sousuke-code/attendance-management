@@ -17,6 +17,8 @@ import {
   import { getShiftSwapLists } from "@/repositories/shift";
   import postShiftRecruitmentAction from "@/actions/shift/postShiftRecruitmentAction";
   import RecruitmentButton from "@/components/RecruitmentButton";
+  import avilaibleTeachersAction from "@/actions/teacher/availableTeachersAction";
+  import Link from "next/link";
   
   export default async function AdminPage() {
     const shiftSwapLists = await getShiftSwapLists();
@@ -60,6 +62,9 @@ import {
                 <TableCell>{shiftSwap.requesterName}</TableCell>
                 <TableCell>{shiftSwap.reason}</TableCell>
                 <TableCell>
+                    <Link href={`/admin/shiftTrades/${shiftSwap.shiftId}`}>
+                    候補講師を探す
+                    </Link>
                 </TableCell>
               </TableRow>
             </TableBody>

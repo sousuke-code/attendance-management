@@ -5,6 +5,7 @@ import postgres from "postgres";
 config({ path: ".env.local" });
 
 const dbUrl = process.env.DATABASE_URL;
+console.log("dbUrl:", dbUrl);
 if (!dbUrl) {
   throw new Error("Database URL is not defined");
 }
