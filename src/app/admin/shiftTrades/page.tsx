@@ -32,8 +32,8 @@ import {
         />
         <form action={postShiftRecruitmentAction}>
         <RecruitmentButton />
-        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg">
-          <TableHeader className="bg-gray-200">
+        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg bg-white">
+          <TableHeader >
             <TableRow>
               <TableHead></TableHead>
               <TableHead className="font-bold">日時</TableHead>
@@ -61,9 +61,11 @@ import {
                 <TableCell>{shiftSwap.studentName}</TableCell>
                 <TableCell>{shiftSwap.requesterName}</TableCell>
                 <TableCell>{shiftSwap.reason}</TableCell>
-                <TableCell>
+                <TableCell>                    
                     <Link href={`/admin/shiftTrades/${shiftSwap.shiftId}`}>
+                    <div className="rounded-l bg-blue-900 text-white font-bold flex items-center justify-center">
                     候補講師を探す
+                    </div>
                     </Link>
                 </TableCell>
               </TableRow>

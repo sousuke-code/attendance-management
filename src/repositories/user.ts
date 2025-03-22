@@ -31,3 +31,7 @@ export async function getTeachers(){
 export async function getStudents(){
     return db.select().from(students);
 }
+
+export async function getPoint(id: number){
+    return db.select().from(teachers)
+}

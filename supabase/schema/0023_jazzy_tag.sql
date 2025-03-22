@@ -1,0 +1,1 @@
+ALTER TABLE "incentive" ALTER COLUMN "requiredPonits" SET NOT NULL;

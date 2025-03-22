@@ -18,7 +18,7 @@ export default async function AdminLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="h-screen w-screen grid grid-rows-[auto,1fr]">
+    <div className="h-screen w-screen grid grid-rows-[auto,1fr] bg-customGray">
         {/* ヘッダーを入れたい */}
       <div className="grid grid-cols-[auto,1fr]"> 
         <div className="border-r">

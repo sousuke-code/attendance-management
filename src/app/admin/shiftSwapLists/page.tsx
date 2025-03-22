@@ -19,8 +19,8 @@ export default async function shiftSwapListsPage() {
     return (
         <>
         <h1 className="text-2xl font-bold mb-4">シフト交換承認待ち一覧</h1>
-        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg">
-            <TableHeader className="bg-gray-200">
+        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg bg-white">
+            <TableHeader>
                 <TableRow>
                     <TableHead className="font-bold">日付</TableHead>
                     <TableHead className="font-bold">コマ</TableHead>
