@@ -15,7 +15,7 @@ export default async function StudentsForAdminPage(){
             { students.map((student) => (
                 <TableRow>
                     <TableCell>{student.name}</TableCell>
-                    <TableCell></TableCell>
+                    <TableCell>T</TableCell>
                 </TableRow>
             ))}
          </Table>

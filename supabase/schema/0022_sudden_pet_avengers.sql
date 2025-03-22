@@ -1,0 +1,1 @@
+ALTER TABLE "incentive" ADD COLUMN "requiredPonits" integer;
