@@ -169,6 +169,20 @@
       "when": 1742470798939,
       "tag": "0023_jazzy_tag",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1742624816139,
+      "tag": "0024_peaceful_dagger",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1742706458934,
+      "tag": "0025_light_hellion",
+      "breakpoints": true
     }
   ]
 }

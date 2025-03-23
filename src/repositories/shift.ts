@@ -1,6 +1,6 @@
 import { eq, and, inArray,aliasedTable } from "drizzle-orm";
 import { DB, db } from "../../db";
-import { shifts, shiftOptions, shiftSwapLists } from "@/db/schema/shift";
+import { shifts, shiftOptions, shiftSwapLists, fixedShifts } from "@/db/schema/shift";
 import { Id } from "@slack/web-api/dist/types/response/RtmStartResponse";
 import { students } from "@/db/schema/student";
 import { subjects } from "@/db/schema/subject";
@@ -107,4 +107,8 @@ export async function updateSwapListsStatusToRejected(tx:DB ,id:number){
 
 export async function getSwapListsForWaiting(){
   return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "applying"));
+}
+
+export async function getFixedShiftByStudent(id: number){
+  return db.select().from(fixedShifts).where(eq(fixedShifts.studentId, id));
 }

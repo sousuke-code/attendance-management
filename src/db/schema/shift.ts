@@ -21,6 +21,16 @@ export const shiftOptions = pgTable('shiftOption', {
     shiftTime: varchar().notNull(),
 });
 
+
+export const fixedShifts = pgTable('fixedShift', {
+    id: serial().primaryKey(),
+    teacherId: integer().references(() => teachers.id),
+    studentId : integer().references(() => students.id),
+    weekday: integer(),
+    shiftId: integer().references(() => shiftOptions.id),
+    subject: integer().references(() => subjects.id),
+})
+
 export const shiftSwapLists = pgTable('shiftSwapList', {
     id: serial().primaryKey(),
     requesterId: integer().references(() => teachers.id),
@@ -123,5 +133,7 @@ export interface ShiftSwapListInfo extends ShiftSwapList {
 
 export type ShiftDetail = typeof shiftDetails.$inferSelect;
 export type Shift = typeof shifts.$inferSelect;
+export type ShiftOption = typeof shiftOptions.$inferSelect;
+export type FixedShift = typeof fixedShifts.$inferSelect;
 export type ShiftSwapList = typeof shiftSwapLists.$inferSelect;
 export type ShiftSwapDetail = typeof shiftSwapDetails.$inferSelect;
