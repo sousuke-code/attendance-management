@@ -1,5 +1,6 @@
 import { db } from "../../db";
 import { students } from "@/db/schema/student";
+import { teachersSubjects } from "@/db/schema/subject";
 import { teachers } from "@/db/schema/teacher";
 import { eq } from "drizzle-orm";
 
@@ -35,3 +36,14 @@ export async function getStudents(){
 export async function getPoint(id: number){
     return db.select().from(teachers)
 }
+
+export async function getTeacherBySubject(subjectId: number){
+    return db.select({
+        teacherId: teachers.id,
+        teacherName: teachers.name,
+        teacherEmail: teachers.email,
+    })
+    .from(teachers)
+    .innerJoin(teachersSubjects, eq(teachers.id, teachersSubjects.teacherId))
+    .where(eq(teachersSubjects.subjectsId, subjectId));
+}  

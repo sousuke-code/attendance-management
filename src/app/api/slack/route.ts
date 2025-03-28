@@ -8,16 +8,20 @@ import { createShiftSwapList } from "@/repositories/shift";
 import { getRecurutingShiftSwapList } from "@/repositories/shift";
 import { applySwapListModal } from "../../../../lib/ApplySwapListModal";
 import { updateSwapListsStatus } from "@/repositories/shift";
-import { getUserEmail } from "@/repositories/slack";
+import { getUser, getUserByEmail, getUserEmail } from "@/repositories/slack";
 import { findShiftsByUser } from "@/repositories/shift";
-import { findTeacherByEmail } from "@/repositories/user";
+import { findTeacherByEmail, getTeacherBySubject } from "@/repositories/user";
+import { parseISO, isAfter, isBefore, addDays, startOfDay } from "date-fns";
+import { parse } from "path";
+import sendShiftRecruitment from "@/domains/slack/sendShiftRecruitment";
+import sendShiftRecruitmentByUser from "@/domains/slack/sendShiftRecruitmentByUser";
 
 export const slackClient = new WebClient(process.env.SLACK_TOKEN);
 
 export async function POST(req: NextRequest) {
   try {
     let body: any;
-    
+
     let email: string | null = null;
     if (req.headers.get("content-type") === "application/json") {
       body = await req.json();
@@ -43,31 +47,37 @@ export async function POST(req: NextRequest) {
       const payload = JSON.parse(body.payload);
       console.log("payload:", payload);
 
-      if(payload.user.id) {
+      if (payload.user.id) {
         email = await getUserEmail(payload.user.id);
       }
 
       console.log("email:", email);
 
-      if (payload.type === "view_submission" && payload.view.callback_id === "shift_search") {
+      if (
+        payload.type === "view_submission" &&
+        payload.view.callback_id === "shift_search"
+      ) {
         const values = payload.view.state.values;
         console.log("values:", values);
 
-
-        const selectedSlots = values["shift_date_block"]?.["datepicker-action"]?.selected_date;
+        const selectedSlots =
+          values["shift_date_block"]?.["datepicker-action"]?.selected_date;
         console.log("選択日時:", selectedSlots);
 
-        const selectedTimeSlots = values["shift_time_block"]?.["multi_static_select-action"]
-          .selected_options.map((slot: { value: string }) => Number(slot.value));
+        const selectedTimeSlots = values["shift_time_block"]?.[
+          "multi_static_select-action"
+        ].selected_options.map((slot: { value: string }) => Number(slot.value));
         console.log("選択コマ時間:", selectedTimeSlots);
 
-
         // 検索されたシフトを表示
-        if(!email) {
+        if (!email) {
           return NextResponse.json({ message: "Error: Email not found" });
         }
-        const shifts = await findShiftsByUser(email, selectedTimeSlots, selectedSlots);
-       
+        const shifts = await findShiftsByUser(
+          email,
+          selectedTimeSlots,
+          selectedSlots
+        );
 
         // 検索結果をモーダル表示
         const resultModal = ReasultModal(shifts);
@@ -110,29 +120,34 @@ export async function POST(req: NextRequest) {
 
           return NextResponse.json({ message: "processing..." });
         }
-
-
-
-  
       }
 
-      // シフト申請の処理
-      if (payload.type === "view_submission" && payload.view.callback_id === "confirmation") {
+      // シフト交換申請の処理（送信後のイベント）
+      if (
+        payload.type === "view_submission" &&
+        payload.view.callback_id === "confirmation"
+      ) {
         console.log("申請理由を取得中...");
         const data = JSON.parse(payload.view.private_metadata);
         console.log("data:", data);
 
         const shiftId = data.id;
         const studentId = data.studentId;
+        const date = parseISO(data.shiftDate);
         const values = payload.view.state.values;
         const reason = values["reason_block"]["reason_input"].value;
+        const nowDate = new Date();
+        const oneWeekAfter = addDays(nowDate, 7);
 
-        if(!email) return NextResponse.json({ message: "Error: Email not found" });
+        if (!email)
+          return NextResponse.json({ message: "Error: Email not found" });
+        if (isAfter(date, nowDate) && isBefore(date, oneWeekAfter)) {
+         //シフトが一週間いないの場合だった場合の処理
+         
+        }
         const teacher = await findTeacherByEmail(email);
-        const teacherId = teacher[0]?.id; 
+        const teacherId = teacher[0]?.id;
 
-        console.log("シフトID:", shiftId);
-        console.log("申請理由:", reason);
         await createShiftSwapList(shiftId, studentId, reason, teacherId);
 
         return NextResponse.json({
@@ -140,11 +155,15 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      if (payload.type === "view_submission" && payload.view.callback_id === "apply_swap_shift_list") {
+      if (
+        payload.type === "view_submission" &&
+        payload.view.callback_id === "apply_swap_shift_list"
+      ) {
         const data = JSON.parse(payload.view.private_metadata);
         console.log("data:", data);
         console.log("申請理由を取得中...");
-        if(!email) return NextResponse.json({ message: "Error: Email not found" }); 
+        if (!email)
+          return NextResponse.json({ message: "Error: Email not found" });
         const receiver = await findTeacherByEmail(email);
         const receiverId = receiver[0]?.id;
         await updateSwapListsStatus(data.id, receiverId);
@@ -172,7 +191,7 @@ export async function POST(req: NextRequest) {
             type: "plain_text",
             text: "詳細を見る",
           },
-          action_id: `swap_shift_${shift.id}`, 
+          action_id: `swap_shift_${shift.id}`,
           value: JSON.stringify(shift), // モーダルで使用するデータをボタンに埋め込む
         },
       }));
@@ -191,5 +210,4 @@ export async function POST(req: NextRequest) {
     console.error("Error:", error);
     return NextResponse.json({ message: "Error processing request" });
   }
-
 }

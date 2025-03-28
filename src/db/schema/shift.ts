@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, integer,date,pgView } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, integer,date,pgView,time } from "drizzle-orm/pg-core";
 import { teachers } from "./teacher";
 import { students } from "./student";
 import { subjects } from "./subject";
@@ -19,6 +19,8 @@ export const shifts = pgTable('shift', {
 export const shiftOptions = pgTable('shiftOption', {
     id: serial().primaryKey(),
     shiftTime: varchar().notNull(),
+    startTime: time(),
+    endTime: time(),
 });
 
 

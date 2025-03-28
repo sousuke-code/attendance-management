@@ -23,6 +23,9 @@ export async function getUserEmail(userId: string): Promise<string> {
   export async function getUserByEmail(email: string) {
     const users = await slackClient.users.list({});
     const user = users.members?.find((user) => user.profile?.email === email);
-    return user ? user.id : null;
-    
+    return user ? user.id : null; 
+  }
+  export async function getUser(){
+    const users = await slackClient.users.list({});
+    return users;    
   }
