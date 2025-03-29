@@ -11,10 +11,14 @@ import Link from "next/link";
 import { getFixedShiftByStudent } from "@/repositories/shift";
 import { Button } from "@/components/ui/button";
 
+export async function generateStaticParams() {
+  return [];
+}
+
 export default async function StudentPage({
   params,
 }: {
-  params: { id: string };
+  params: any;
 }) {
   const id = Number(params.id);
   const subjects = await getAvailableSubjectsByStudent(id);

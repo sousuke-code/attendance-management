@@ -4,12 +4,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-type Props = {
-    params: { id: string }
-    searchParams: Promise<{ subjectId : string}>
+export async function generateStaticParams() {
+    return [];
 }
 
-export default  async function availableTeachersPage({params, searchParams} : Props) {
+export default  async function availableTeachersPage({params, searchParams} : any) {
     const subjectId = (await searchParams).subjectId;
     const studentId = Number(params.id);
     const teacherSubjects = await getTeacherSubjects(Number(subjectId));
