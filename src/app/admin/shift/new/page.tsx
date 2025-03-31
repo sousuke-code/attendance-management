@@ -9,16 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import WeekdaySelectOption from "@/components/WeedaySelectOption";
 import { getShiftOptions } from "@/repositories/shift";
 import { getSubjectById } from "@/repositories/subject";
@@ -34,6 +24,9 @@ type Props = {
 
 export default async function createShiftSwapList({ searchParams }: Props) {
   const { teacherId, subjectId, studentId } = await searchParams;
+  if (!teacherId || !subjectId || !studentId) {
+    return <div>Invalid parameters</div>;
+  }
   const shiftOptions = await getShiftOptions();
   const teacher = await getTeacherById(Number(teacherId));
   const student = await getStudentById(Number(studentId));

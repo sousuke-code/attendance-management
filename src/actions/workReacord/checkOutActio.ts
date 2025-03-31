@@ -41,7 +41,7 @@ export async function checkOutAction(previousState: FormState,formData: FormData
         return {
             message: null,
             success: true,
-            officeTime: result.officeTime.map(time => ({
+            officeTime: result.officeTime?.map(time => ({
                 start: String(time.start),
                 end: String(time.end),
                 minutes: time.minutes,
@@ -49,5 +49,13 @@ export async function checkOutAction(previousState: FormState,formData: FormData
             teacherId: teacher[0].id,
             attendanceId: result.attendanceId,
         }
+    }
+
+    return {
+        message: null,
+        success: true,
+        officeTime: undefined,
+        teacherId: teacher[0].id,
+        attendanceId: result.attendanceId,
     }
 }

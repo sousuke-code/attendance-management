@@ -1,5 +1,5 @@
 import ShiftTradePage from "@/app/admin/shiftTrades/[id]/page";
-import { findAttendanceByTeacherId } from "@/repositories/attendace";
+import { findAttendanceByTeacherId, updateAttendance } from "@/repositories/attendace";
 import { getShiftsByTeacher } from "@/repositories/shift";
 import { differenceInMinutes, format,parse } from "date-fns";
 import { substractRanges } from "./substractRanges";
@@ -17,6 +17,7 @@ export async function checkOut(teacherId: number){
         start: checkIn,
         end: now,
     }
+    await updateAttendance(attendance[0].id, now);
 
     //その日のシフトを取得
     const shifts = await getShiftsByTeacher(teacherId, date);
@@ -47,8 +48,9 @@ export async function checkOut(teacherId: number){
     }
 
 
-    
-    
-
-
+    return {
+        needsInput: false,
+        totalOfficeMinutes,
+        attendanceId: attendance[0].id,
+    };
 }

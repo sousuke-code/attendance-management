@@ -16,5 +16,5 @@ export async function findAttendanceByTeacherId(teacherId: number){
 }
 
 export async function updateAttendance(attendanceId: number, checkOut: Date){
-    return db
+    return db.update(attendaces).set({ checkOut: checkOut }).where(eq(attendaces.id, attendanceId));
 }

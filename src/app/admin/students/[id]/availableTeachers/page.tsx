@@ -14,13 +14,13 @@ export default  async function availableTeachersPage(props : {
 }) {
     const { id } = await props.params;
     const { subjectId } = await props.searchParams;
+    if(!id || !subjectId){
+        return <div>Invalid parameters</div>;
+    }
 
     const studentId = Number(id);
     const teacherSubjects = await getTeacherSubjects(Number(subjectId));
     const teachers = await Promise.all(teacherSubjects.map((teacher)=> getTeacherById(teacher.teacherId)));
-    console.log(studentId);
-    console.log(teachers);
-
     
     return (
         <>
