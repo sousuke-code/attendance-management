@@ -17,6 +17,7 @@ import { Select,
  } from "@/components/ui/select";
 import Link from "next/link";
 import calcIncentiveOption from "@/domains/teacher/calcIncentiveOption";
+import { Button } from "@/components/ui/button";
 
 
 export default async function TeacherAdminPage() {
@@ -42,7 +43,10 @@ export default async function TeacherAdminPage() {
     
     return (
         <>
-         <Table className="shadow rounded-sm bg-white p10">
+        <Link href="teacher/create">
+          <Button className="bg-blue-500 text-white font-bold">新規作成する</Button>
+        </Link>
+         <Table className="shadow rounded-sm bg-white p10 mt-2">
             <TableHeader className="font-bold text-lg border-b">
                <TableCell>講師名</TableCell>
                <TableCell>メールアドレス</TableCell>

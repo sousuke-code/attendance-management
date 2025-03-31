@@ -57,3 +57,16 @@ export async function findTeacherByKey(key:string){
 export async function findTeacherById(id: number){
     return db.select().from(teachers).where(eq(teachers.id, id));
 }
+
+export async function createTeacher(teacherName: string, teacherEmail: string) {
+    const result = await db
+      .insert(teachers)
+      .values({
+        name: teacherName,
+        email: teacherEmail,
+        point: 100,
+      })
+      .returning(); 
+  
+    return result[0];
+  }

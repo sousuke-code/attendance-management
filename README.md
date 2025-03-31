@@ -17,7 +17,7 @@ URL ( https://attendance-management-rouge.vercel.app/ )
 * slack側で下記の招待からワークスペースに入ってください
   （https://join.slack.com/t/w1740385716-adu148397/shared_invite/zt-32lz6pgw7-3YUyLyTK6yguvuLy284~Dg）
 
-* web上で講師として登録してください(/teacher/register)
+* web上で講師として登録してください(/admin/teacher/create)
   この時にメールアドレスはslackアカウントのメールアドレスと同じで登録してください
 
 * web上でシフトを登録してください（/teachers/[id]/shifts/register）
