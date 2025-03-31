@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+URL ( https://attendance-management-rouge.vercel.app/ )
 
-## Getting Started
+## 使用技術
 
-First, run the development server:
+* TypeScript(Next)
+* drizzleORM
+* supabase
+* slack API
+  
+## 使用準備
+---
+* slackアカウント（できれば二つあると確認しやすい）
+  複数のメールアドレスを作成する際には下記を参考にしてみてください
+  
+## 導入手順
+---
+* slack側で下記の招待からワークスペースに入ってください
+  （https://join.slack.com/t/w1740385716-adu148397/shared_invite/zt-32lz6pgw7-3YUyLyTK6yguvuLy284~Dg）
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* web上で講師として登録してください(/teacher/register)
+  この時にメールアドレスはslackアカウントのメールアドレスと同じで登録してください
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* web上でシフトを登録してください（/teachers/[id]/shifts/register）
+idがわからない場合には講師管理から名前をクリックしてください
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+上記で初期設定は完了です
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## 機能概要
+---
 
-To learn more about Next.js, take a look at the following resources:
+### シフト交換機能
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+***シフト交換のワークフロー***
+* slackの勤怠管理ワーク上で/コマンド(/シフト交換)を打ってください
+* 先ほど登録したシフトを選択して交換申請に出してください
+  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 事務管理の自動抽出
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
