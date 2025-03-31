@@ -25,8 +25,21 @@ export default async function TeacherPage({params} : {params: Promise<{id : stri
     return (
        <Table>
          <TableHeader>
+            <TableCell>No</TableCell>
             <TableHead>講師名</TableHead>
+            <TableHead>メールアドレス</TableHead>
+            <TableHead>所有ポイント数</TableHead>
+            <TableHead>ID</TableHead>
          </TableHeader>
+         <TableBody>
+            <TableRow>
+               <TableCell>{teacher[0].id}</TableCell>
+               <TableCell>{teacher[0].name}</TableCell>
+               <TableCell>{teacher[0].email}</TableCell>
+               <TableCell>{teacher[0].point}</TableCell>
+               <TableCell>{teacher[0].key}</TableCell>
+            </TableRow>
+         </TableBody>
         
        </Table>
     )
