@@ -30,6 +30,9 @@ export async function checkInAction( previousState: FormState,formData: FormData
    if(!teacher){
        return { message : "講師が見つかりません"};
     }
-    await checkIn(teacher[0].id);
+    const result = await checkIn(teacher[0].id);
+    if(result?.message){
+        return { message: "既に出勤しています"};
+    }
     return redirect("/teacher/attendance");
 }
