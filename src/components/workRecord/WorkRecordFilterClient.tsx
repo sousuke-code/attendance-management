@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup,SelectItem,SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import WorkRecordsTableByTeacher from "./workRecordsTableByTeacher";
+import WorkRecordsTableByTeacher from "./WorkRecordsTableByTeacher";
 import { format } from "date-fns";
 import { workRecords, type WorkRecords } from "@/db/schema/work";
 

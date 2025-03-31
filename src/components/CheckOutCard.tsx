@@ -9,9 +9,7 @@ import { Textarea } from "./ui/textarea";
 import { format } from "date-fns";
 import { formatMinutesToHourMinutes } from "@/domains/formatMinutesToHourMinutes";
 import { useState } from "react";
-import { stat } from "fs";
 import { redirect, useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { Input } from "./ui/input";
 
 export default function CheckOutCard() {
@@ -94,7 +92,7 @@ export default function CheckOutCard() {
               <label>講師ID</label>
               <Input name="teacherId" id="teacherId" type="text" placeholder="講師IDを入力してください"required />
               <p className="text-red-500">{state.message}</p>
-              <Button className="mt-2">退勤する</Button>
+              <Button className="mt-10 w-1/2 mx-auto bg-blue-600 text-white font-bold" size="sm">退勤する</Button>
             </form>
           </div>
         )}

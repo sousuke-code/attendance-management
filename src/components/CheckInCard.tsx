@@ -32,7 +32,7 @@ export default function CheckInCard() {
             required
           />
           <p className="text-red-500">{state.message}</p>
-          <Button className="mt-2" size="sm">
+          <Button className="mt-10 w-1/2 mx-auto bg-blue-600 text-white font-bold" size="sm">
             出勤する
           </Button>
         </form>

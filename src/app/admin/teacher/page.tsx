@@ -48,6 +48,7 @@ export default async function TeacherAdminPage() {
                <TableCell>メールアドレス</TableCell>
                <TableCell>所有ポイント数</TableCell>
                <TableCell>利用可能なインセンティブ</TableCell>
+               <TableCell></TableCell>
             </TableHeader>
             { teachers.map((teacher) => (
             <TableRow className="border-b px-4 py-2">
@@ -60,6 +61,13 @@ export default async function TeacherAdminPage() {
                 <TableCell>{teacher.point}</TableCell>
                 <TableCell>
                      {teacher.point ? incentiveOptions(teacher?.point) : "ポイントがありません"}
+                </TableCell>
+                <TableCell>
+                    <Link href={`/admin/workRecords/teacher/${teacher.id}`}>
+                      <p className="text-blue-600 font-bold">
+                      事務記録を見る
+                      </p>
+                    </Link>
                 </TableCell>
             </TableRow>
 
