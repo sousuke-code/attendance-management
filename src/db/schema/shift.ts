@@ -57,6 +57,7 @@ export const shiftDetails = pgView('shiftDetail', {
     teacherId: integer().notNull(),
     teacherName: varchar().notNull(),
     teacherEmail: varchar().notNull(),
+    studentId: integer().notNull(),
     studentName: varchar().notNull(),
 }).as(
     sql `
@@ -72,6 +73,7 @@ export const shiftDetails = pgView('shiftDetail', {
         t.id as "teacherId",
         t.name as "teacherName",
         t.email as "teacherEmail",
+        st.id as "studentId",
         st.name as "studentName"
     FROM ${shifts} s
     LEFT JOIN ${shiftOptions} so ON s."shiftId" = so.id
@@ -94,7 +96,7 @@ export const shiftSwapDetails = pgView('shiftSwapDetails', {
     shiftTime: varchar().notNull(),
     shiftOptionId: integer().notNull(),
     subjectId: integer().notNull(),
-    subjectsName: varchar().notNull(),
+    subjectName: varchar().notNull(),
     reason: text().notNull(),
     status: varchar().notNull(),
     ...timestamps,
@@ -113,7 +115,7 @@ export const shiftSwapDetails = pgView('shiftSwapDetails', {
         so."shiftTime" as "shiftTime",
         so.id as "shiftOptionId",
         s."subjectId" as "subjectId",
-        su.name as "subjectsName",
+        su.name as "subjectName",
         ssl.reason as reason,
         ssl.status as status,
         ssl."createdAt" as "createdAt",

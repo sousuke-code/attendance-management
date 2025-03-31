@@ -114,7 +114,7 @@ export async function getFixedShiftByStudent(id: number){
 }
 
 export async function findShiftSwapListByShiftId(shiftId: number){
-  return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.shiftId, shiftId));
+  return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.shiftId, shiftId)).limit(1);
 } 
 
 export async function getShiftsByTeacher(teacherId: number, date: string){

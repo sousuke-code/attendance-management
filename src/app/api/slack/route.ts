@@ -103,7 +103,8 @@ export async function POST(req: NextRequest) {
           const shiftData = JSON.parse(action.value);
 
           const hasShiftSwapList = await findShiftSwapListByShiftId(shiftData.id);
-          if(hasShiftSwapList){
+          console.log("hasShiftSwapList:", hasShiftSwapList);
+          if(hasShiftSwapList.length > 0){
             await slackClient.views.update({
               view_id: payload.view.id,
               view: ErrorModalForAlredy(),
@@ -159,6 +160,7 @@ export async function POST(req: NextRequest) {
         
         (async () => {
           try {
+            console.log(studentId);
             await createShiftSwapList(shiftId, studentId, reason, teacherId);
       
             if (isAfter(date, nowDate) && isBefore(date, oneWeekAfter)) {

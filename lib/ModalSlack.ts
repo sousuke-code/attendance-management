@@ -49,7 +49,7 @@ export const shiftModal: ModalView = {
             "block_id": "shift_selection_block",
 			"text": {
 				"type": "mrkdwn",
-				"text": "下記から選択肢て交換したいシフトを探してください"
+				"text": "下記の入力項目を記入して交換したいシフトを探してください"
 			}
 		},
 		{
@@ -57,7 +57,7 @@ export const shiftModal: ModalView = {
             "block_id": "shift_date_block",
 			"text": {
 				"type": "mrkdwn",
-				"text": "Pick a date for the deadline."
+				"text": "日時を選択してください"
 			},
 			"accessory": {
 				"type": "datepicker",
