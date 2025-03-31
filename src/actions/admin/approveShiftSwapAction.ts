@@ -36,7 +36,14 @@ export default async function approveShiftSwapAction(formData: FormData) {
     }
 
    const shiftDetails = await getShiftDetailsById(shiftId);
+   const requesterId = shiftDetails[0].teacherId;
+   const requester = await findTeacherEmailById(requesterId);
+    if(!requester[0].email){
+         throw new Error("Requester not found");
+    }
+   
    const userId = await getUserByEmail(reciver[0].email);
+   const requesterUserId = await getUserByEmail(requester[0].email);
    const userPoints = reciver[0].point;
 
    if(userId){
@@ -46,6 +53,11 @@ export default async function approveShiftSwapAction(formData: FormData) {
         - 生徒: ${shiftDetails[0].studentName} \n
         - 科目: ${shiftDetails[0].subjectName} \n
         あなたのポイントは現在${userPoints}です！`);
+   }
+
+   if(requesterUserId){
+    await sendApproveMessage(requesterUserId, `シフトが交換が承認されました!\n
+        `)
    }
 
    //slack通知

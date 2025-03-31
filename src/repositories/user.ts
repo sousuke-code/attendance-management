@@ -53,3 +53,7 @@ export async function findTeacherByKey(key:string){
     return db.select().from(teachers).where(eq(teachers.key, key));
 
 }
+
+export async function findTeacherById(id: number){
+    return db.select().from(teachers).where(eq(teachers.id, id));
+}

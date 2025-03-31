@@ -24,6 +24,10 @@ export async function getShiftDetailsById(id:number){
   return db.select().from(shiftDetails).where(eq(shiftDetails.id,id))
 }
 
+export async function getShistSwapListsDetatlsById(shiftId: number){
+  return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.shiftId, shiftId));
+}
+
 
 export async function getShiftById(id: number) {
   return (await db.select().from(shifts).where(eq(shifts.id, id)));

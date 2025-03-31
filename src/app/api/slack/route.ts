@@ -10,7 +10,12 @@ import { applySwapListModal } from "../../../../lib/ApplySwapListModal";
 import { updateSwapListsStatus } from "@/repositories/shift";
 import { getUser, getUserByEmail, getUserEmail } from "@/repositories/slack";
 import { findShiftsByUser } from "@/repositories/shift";
-import { findTeacherByEmail, getTeacherBySubject } from "@/repositories/user";
+import {
+  findTeacherByEmail,
+  findTeacherById,
+  findTeacherByKey,
+  getTeacherBySubject,
+} from "@/repositories/user";
 import { parseISO, isAfter, isBefore, addDays, startOfDay } from "date-fns";
 import { parse } from "path";
 import sendShiftRecruitment from "@/domains/slack/sendShiftRecruitment";
@@ -18,6 +23,7 @@ import sendShiftRecruitmentByUser from "@/domains/slack/sendShiftRecruitmentByUs
 import { th } from "@faker-js/faker";
 import { ErrorModalForAlredy } from "../../../../lib/ErrorModalForAlready";
 import sendMessageToDM from "@/domains/slack/sendMessageToDM";
+import { ErrorModalForSamePerson } from "@/lib/ErrorModalForSamePerson";
 
 export const slackClient = new WebClient(process.env.SLACK_TOKEN);
 
@@ -48,7 +54,6 @@ export async function POST(req: NextRequest) {
 
     if (body.payload) {
       const payload = JSON.parse(body.payload);
-      console.log("payload:", payload);
 
       if (payload.user.id) {
         email = await getUserEmail(payload.user.id);
@@ -101,14 +106,17 @@ export async function POST(req: NextRequest) {
 
         if (action.action_id.startsWith("apply_shift")) {
           const shiftData = JSON.parse(action.value);
+          console.log("shiftData:", shiftData);
 
-          const hasShiftSwapList = await findShiftSwapListByShiftId(shiftData.id);
+          const hasShiftSwapList = await findShiftSwapListByShiftId(
+            shiftData.id
+          );
           console.log("hasShiftSwapList:", hasShiftSwapList);
-          if(hasShiftSwapList.length > 0){
+          if (hasShiftSwapList.length > 0) {
             await slackClient.views.update({
               view_id: payload.view.id,
               view: ErrorModalForAlredy(),
-            })
+            });
 
             return NextResponse.json({ message: "alredy applied" });
           }
@@ -125,7 +133,7 @@ export async function POST(req: NextRequest) {
         if (action.action_id.startsWith("swap_shift")) {
           const swapShiftData = JSON.parse(action.value);
           console.log("swapShiftData:", swapShiftData);
-          console.log(payload);
+          const teacherId = await findTeacherById(swapShiftData.requesterId);
 
           await slackClient.views.open({
             trigger_id: payload.trigger_id,
@@ -149,30 +157,28 @@ export async function POST(req: NextRequest) {
         const reason = values["reason_block"]["reason_input"].value;
         const nowDate = new Date();
         const oneWeekAfter = addDays(nowDate, 7);
-      
-        if(!email) throw new Error("Email not found");
+
+        if (!email) throw new Error("Email not found");
         const teacher = await findTeacherByEmail(email);
         const teacherId = teacher[0]?.id;
-      
-        
+
         const response = NextResponse.json({ response_action: "clear" });
-      
-        
+
         (async () => {
           try {
             console.log(studentId);
             await createShiftSwapList(shiftId, studentId, reason, teacherId);
-      
+
             if (isAfter(date, nowDate) && isBefore(date, oneWeekAfter)) {
               const teachers = await getTeacherBySubject(data.subjectId);
-      
+
               for (const teacher of teachers) {
                 const teacherEmail = teacher.teacherEmail;
                 if (!teacherEmail) continue;
-      
+
                 const id = await getUserByEmail(teacherEmail);
                 if (!id) continue;
-      
+
                 await sendShiftRecruitmentByUser(id, [
                   {
                     type: "section",
@@ -186,7 +192,10 @@ export async function POST(req: NextRequest) {
                     fields: [
                       { type: "mrkdwn", text: `*日程:*\n${data.shiftDate}` },
                       { type: "mrkdwn", text: `*時間:*\n${data.shiftTime}` },
-                      { type: "mrkdwn", text: `*生徒名:*\n${data.studentName}` },
+                      {
+                        type: "mrkdwn",
+                        text: `*生徒名:*\n${data.studentName}`,
+                      },
                       { type: "mrkdwn", text: `*科目:*\n${data.subjectName}` },
                     ],
                   },
@@ -195,7 +204,11 @@ export async function POST(req: NextRequest) {
                     elements: [
                       {
                         type: "button",
-                        text: { type: "plain_text", emoji: true, text: "交換する" },
+                        text: {
+                          type: "plain_text",
+                          emoji: true,
+                          text: "交換する",
+                        },
                         style: "primary",
                         value: JSON.stringify(data),
                         action_id: "via_dm",
@@ -209,27 +222,35 @@ export async function POST(req: NextRequest) {
             console.error("シフト交換の非同期処理でエラー:", err);
           }
         })();
-      
+
         return response;
       }
 
       //　DMでの交換申請
-      if (
-       payload.type ===  "block_actions"
-      ) {
+      if (payload.type === "block_actions") {
         const action = payload.actions[0];
-        if(action.action_id === "via_dm"){
+        if (action.action_id === "via_dm" ) {
           const raw = action.value;
           const data = JSON.parse(raw);
           if (!email)
             return NextResponse.json({ message: "Error: Email not found" });
           const teacherId = await getUserByEmail(email);
-          if(!teacherId) throw new Error("Teacher not found");
+          if (!teacherId) throw new Error("Teacher not found");
           const hasShiftSwapList = await findShiftSwapListByShiftId(data.id);
-          if(hasShiftSwapList){
+          if (hasShiftSwapList) {
             const receiver = await findTeacherByEmail(email);
             const receiverId = receiver[0]?.id;
+            const requesterId = data.requesterId;
+            if (requesterId === receiverId) {
+              console.log("同じ人");
+              await slackClient.views.update({
+                view_id: payload.view.id,
+                view: ErrorModalForSamePerson(),
+              });
+              return NextResponse.json({ message: "same person" });
+            }
             console.log("receiverId:", receiverId);
+
             await updateSwapListsStatus(data.id, receiverId);
             await sendMessageToDM(teacherId, "appied");
             return NextResponse.json({
@@ -239,28 +260,51 @@ export async function POST(req: NextRequest) {
             await sendMessageToDM(teacherId, "rejected");
             return NextResponse.json({
               response_action: "clear",
-            })
+            });
           }
+        } else if (action.action_id.startsWith("send_recruitment_via_web")
+        ) {
+          const swapShiftData = JSON.parse(action.value);
+          console.log("swapShiftData:", swapShiftData);
+
+          const teacherId = await findTeacherById(swapShiftData.requesterId);
+
+          await slackClient.views.open({
+            trigger_id: payload.trigger_id,
+            view: applySwapListModal(swapShiftData),
+          });
+
+          return NextResponse.json({ message: "processing"});
         }
       }
 
       //チャンネル上での交換申請
-      if(
+      if (
         payload.type === "view_submission" &&
-        payload.view.callback_id === "apply_shift_via_dm"
-      ){
+        payload.view.callback_id === "apply_swap_shift_list"
+      ) {
+        console.log("交換申請進行中");
         const data = JSON.parse(payload.view.private_metadata);
-        if(!email) throw new Error("Email not ");
-        const receiver= await findTeacherByEmail(email);
+        if (!email) throw new Error("Email not ");
+        const receiver = await findTeacherByEmail(email);
         const receiverId = receiver[0]?.id;
-        await updateSwapListsStatus(data.id, receiverId);
+        console.log("receiverId:", receiverId); 
+        const requesterId = data.requesterId;
+        if (requesterId === receiverId) {
+          console.log("同じ人");
+          await slackClient.views.update({
+            view_id: payload.view.id,
+            view: ErrorModalForSamePerson(),
+          });
+          return NextResponse.json({ message: "same person" });
+        }
+        await updateSwapListsStatus(data.shiftId, receiverId);
 
         return NextResponse.json({
           response_action: "clear",
         });
       }
     }
-
 
     // シフト募集一覧表示
     if (body.action === "send_shift_notifications") {

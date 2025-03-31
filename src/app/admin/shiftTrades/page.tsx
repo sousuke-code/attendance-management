@@ -57,7 +57,7 @@ import {
                 </TableCell>
                 <TableCell>{shiftSwap.shiftDate}</TableCell>
                 <TableCell>{shiftSwap.shiftTime} </TableCell>
-                <TableCell>{shiftSwap.subjectsName}</TableCell>
+                <TableCell>{shiftSwap.subjectName}</TableCell>
                 <TableCell>{shiftSwap.studentName}</TableCell>
                 <TableCell>{shiftSwap.requesterName}</TableCell>
                 <TableCell>{shiftSwap.reason}</TableCell>
