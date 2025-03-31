@@ -225,6 +225,20 @@
       "when": 1743322571022,
       "tag": "0031_amusing_vargas",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1743410995860,
+      "tag": "0032_curious_firebrand",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1743411601991,
+      "tag": "0033_dusty_quentin_quire",
+      "breakpoints": true
     }
   ]
 }

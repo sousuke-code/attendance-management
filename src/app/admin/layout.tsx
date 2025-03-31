@@ -28,6 +28,7 @@ export default async function AdminLayout({
               <ListItem href="/admin/shiftSwapLists">承諾待ちリスト</ListItem>
               <ListItem href="/admin/teacher">講師管理</ListItem>
               <ListItem href="/admin/students">生徒管理</ListItem>
+              <ListItem href="/admin/">事務時間記録</ListItem>
             </ul>
           </nav>
         </div>

@@ -4,6 +4,7 @@ import CheckOutCard from "@/components/CheckOutCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default  function TeacgerAttendancePage() {
   return (
+    <div className="m-10">
     <Tabs defaultValue="checkIn" className="">
       <TabsList>
         <TabsTrigger value="checkIn">出席</TabsTrigger>
@@ -16,5 +17,6 @@ export default  function TeacgerAttendancePage() {
          <CheckOutCard />
       </TabsContent>
     </Tabs>
+    </div>
   );
 }

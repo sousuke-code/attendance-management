@@ -3,7 +3,7 @@ import { ShiftDetail } from "@/db/schema/shift";
 import { ShiftSwapDetail } from "@/db/schema/shift";
 
 export const confirmationModal = (shift: ShiftSwapDetail) : ModalView => {
-    console.log(shift);
+    
     return {
     type: "modal",
     callback_id: "confirmation",
@@ -32,7 +32,7 @@ export const confirmationModal = (shift: ShiftSwapDetail) : ModalView => {
                 *生徒名:* ${shift.studentName}\n
                 *日付:* ${shift.shiftDate}\n
                 *コマ時間:* ${shift.shiftTime} (${shift.shiftTime}コマ目)\n
-                *科目名:* ${shift.subjectsName}\n
+                *科目名:* ${shift.subjectName}\n
                 `
             }
         },

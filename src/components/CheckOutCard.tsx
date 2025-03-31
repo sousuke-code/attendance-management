@@ -8,11 +8,10 @@ import { checkOutAction } from "@/actions/workReacord/checkOutActio";
 import { Textarea } from "./ui/textarea";
 import { format } from "date-fns";
 import { formatMinutesToHourMinutes } from "@/domains/formatMinutesToHourMinutes";
-import { useState } from "react";
-import { stat } from "fs";
+import { useEffect, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { Input } from "./ui/input";
+import { Reddit_Sans_Condensed } from "next/font/google";
 
 export default function CheckOutCard() {
   const router = useRouter();
@@ -21,15 +20,27 @@ export default function CheckOutCard() {
   const [state, formAction] = useFormState(checkOutAction, { message: null });
   const [reasons, setReasons] = useState<string[]>(state.officeTime?.map(() => "") ?? []);
 
+
   const handleReasonChange = (index: number, value: string) => {
     const updates = [...reasons];
     updates[index] = value;
     setReasons(updates);
   }
 
+  useEffect(() => {
+    if(state.officeTime){
+        setReasons(state.officeTime.map(() => ""));
+    }
+   }, [state.officeTime]);
   const handleSubmit = async() => {
     if(!state.officeTime){
         alert("事務時間が取得できていません");
+        return;
+    }
+
+    const isEmpty = reasons.some((reason) => reason.trim() === "");
+    if(isEmpty){
+        alert("事務時間の理由を入力してください");
         return;
     }
 
@@ -94,7 +105,7 @@ export default function CheckOutCard() {
               <label>講師ID</label>
               <Input name="teacherId" id="teacherId" type="text" placeholder="講師IDを入力してください"required />
               <p className="text-red-500">{state.message}</p>
-              <Button className="mt-2">退勤する</Button>
+              <Button className="mt-10 w-1/2 mx-auto bg-blue-600 text-white font-bold" size="sm">退勤する</Button>
             </form>
           </div>
         )}

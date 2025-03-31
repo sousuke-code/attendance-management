@@ -19,7 +19,7 @@ export default async function postShiftRecruitmentAction(formData: FormData){
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `📅 *日付:* ${shift.shiftDate}\n🕒 *時間:* ${shift.shiftTime}\n👤 *生徒:* ${shift.studentName}\n📔 *科目:* ${shift.subjectsName}\n👨‍🏫 *申請講師名:* ${shift.requesterName}\n*交換理由:* ${shift.reason}`,
+        text: `📅 *日付:* ${shift.shiftDate}\n🕒 *時間:* ${shift.shiftTime}\n👤 *生徒:* ${shift.studentName}\n📔 *科目:* ${shift.subjectName}\n👨‍🏫 *申請講師名:* ${shift.requesterName}\n*交換理由:* ${shift.reason}`,
       },
       accessory: {
         type: "button",

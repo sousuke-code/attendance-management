@@ -31,7 +31,7 @@ export const applySwapListModal = (shift: ShiftSwapDetail): ModalView => {
           },
           {
             type: "mrkdwn",
-            text: `*科目:*\n${shift.subjectsName}`,
+            text: `*科目:*\n${shift.subjectName}`,
           },
           {
             type: "mrkdwn",

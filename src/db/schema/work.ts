@@ -13,4 +13,4 @@ export const workRecords = pgTable("workRecord", {
     ...timestamps,
 })
 
-export const WorkRecords = typeof workRecords.$inferSelect;
+export type WorkRecords = typeof workRecords.$inferSelect;
