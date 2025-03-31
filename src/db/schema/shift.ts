@@ -1,10 +1,11 @@
-import { pgTable, serial, text, varchar, integer,date,pgView } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, integer,date,pgView,time } from "drizzle-orm/pg-core";
 import { teachers } from "./teacher";
 import { students } from "./student";
 import { subjects } from "./subject";
 import { timestamps } from "./commmon";
 import { sql } from "drizzle-orm";
 import { request } from "http";
+import { stackTraceLimit } from "postcss/lib/css-syntax-error";
 
 export const shifts = pgTable('shift', {
     id: serial().primaryKey(),
@@ -19,7 +20,19 @@ export const shifts = pgTable('shift', {
 export const shiftOptions = pgTable('shiftOption', {
     id: serial().primaryKey(),
     shiftTime: varchar().notNull(),
+    startTime: time(),
+    endTime: time(),
 });
+
+
+export const fixedShifts = pgTable('fixedShift', {
+    id: serial().primaryKey(),
+    teacherId: integer().references(() => teachers.id),
+    studentId : integer().references(() => students.id),
+    weekday: integer(),
+    shiftId: integer().references(() => shiftOptions.id),
+    subject: integer().references(() => subjects.id),
+})
 
 export const shiftSwapLists = pgTable('shiftSwapList', {
     id: serial().primaryKey(),
@@ -36,6 +49,8 @@ export const shiftDetails = pgView('shiftDetail', {
     id: integer().notNull(),
     shiftDate: date().notNull(),
     shiftOptionId: integer().notNull(),
+    startTime: time(),
+    endTime: time(),
     shiftTime: varchar().notNull(),
     subjectId: integer().notNull(),
     subjectName: varchar().notNull(),
@@ -49,6 +64,8 @@ export const shiftDetails = pgView('shiftDetail', {
         s.id as id,
         s.date as "shiftDate",
         so.id as "shiftOptionId",
+        so."startTime" as "startTime",
+        so."endTime" as "endTime",
         so."shiftTime" as "shiftTime",
         s."subjectId" as "subjectId",
         su.name as "subjectName",
@@ -123,5 +140,7 @@ export interface ShiftSwapListInfo extends ShiftSwapList {
 
 export type ShiftDetail = typeof shiftDetails.$inferSelect;
 export type Shift = typeof shifts.$inferSelect;
+export type ShiftOption = typeof shiftOptions.$inferSelect;
+export type FixedShift = typeof fixedShifts.$inferSelect;
 export type ShiftSwapList = typeof shiftSwapLists.$inferSelect;
 export type ShiftSwapDetail = typeof shiftSwapDetails.$inferSelect;

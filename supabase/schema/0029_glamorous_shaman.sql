@@ -1,0 +1,1 @@
+ALTER TABLE "workRecord" ADD COLUMN "content" text;
