@@ -5,6 +5,7 @@ import { subjects } from "./subject";
 import { timestamps } from "./commmon";
 import { sql } from "drizzle-orm";
 import { request } from "http";
+import { stackTraceLimit } from "postcss/lib/css-syntax-error";
 
 export const shifts = pgTable('shift', {
     id: serial().primaryKey(),
@@ -48,6 +49,8 @@ export const shiftDetails = pgView('shiftDetail', {
     id: integer().notNull(),
     shiftDate: date().notNull(),
     shiftOptionId: integer().notNull(),
+    startTime: time(),
+    endTime: time(),
     shiftTime: varchar().notNull(),
     subjectId: integer().notNull(),
     subjectName: varchar().notNull(),
@@ -61,6 +64,8 @@ export const shiftDetails = pgView('shiftDetail', {
         s.id as id,
         s.date as "shiftDate",
         so.id as "shiftOptionId",
+        so."startTime" as "startTime",
+        so."endTime" as "endTime",
         so."shiftTime" as "shiftTime",
         s."subjectId" as "subjectId",
         su.name as "subjectName",

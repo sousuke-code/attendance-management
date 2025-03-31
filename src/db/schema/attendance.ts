@@ -6,7 +6,7 @@ export const attendaces = pgTable("attendace", {
     id: serial().primaryKey(),
     teacherId: integer().references(() => teachers.id),
     checkIn: timestamp().notNull(),
-    checkOut: timestamp().notNull(),
+    checkOut: timestamp(),
     ...timestamps,
 })
 

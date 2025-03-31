@@ -1,7 +1,8 @@
 import { ModalView } from "@slack/web-api";
 import { ShiftDetail } from "@/db/schema/shift";
+import { ShiftSwapDetail } from "@/db/schema/shift";
 
-export const confirmationModal = (shift: ShiftDetail) : ModalView => {
+export const confirmationModal = (shift: ShiftSwapDetail) : ModalView => {
     console.log(shift);
     return {
     type: "modal",
@@ -31,7 +32,7 @@ export const confirmationModal = (shift: ShiftDetail) : ModalView => {
                 *生徒名:* ${shift.studentName}\n
                 *日付:* ${shift.shiftDate}\n
                 *コマ時間:* ${shift.shiftTime} (${shift.shiftTime}コマ目)\n
-                *科目名:* ${shift.subjectName}\n
+                *科目名:* ${shift.subjectsName}\n
                 `
             }
         },

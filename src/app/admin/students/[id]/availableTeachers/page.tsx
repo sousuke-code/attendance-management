@@ -8,9 +8,14 @@ export async function generateStaticParams() {
     return [];
 }
 
-export default  async function availableTeachersPage({params, searchParams} : any) {
-    const subjectId = (await searchParams).subjectId;
-    const studentId = Number(params.id);
+export default  async function availableTeachersPage(props : {
+    params: Promise<{id : string}>,
+    searchParams: Promise<{ subjectId: string}>
+}) {
+    const { id } = await props.params;
+    const { subjectId } = await props.searchParams;
+
+    const studentId = Number(id);
     const teacherSubjects = await getTeacherSubjects(Number(subjectId));
     const teachers = await Promise.all(teacherSubjects.map((teacher)=> getTeacherById(teacher.teacherId)));
     console.log(studentId);

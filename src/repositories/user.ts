@@ -47,3 +47,9 @@ export async function getTeacherBySubject(subjectId: number){
     .innerJoin(teachersSubjects, eq(teachers.id, teachersSubjects.teacherId))
     .where(eq(teachersSubjects.subjectsId, subjectId));
 }  
+
+
+export async function findTeacherByKey(key:string){
+    return db.select().from(teachers).where(eq(teachers.key, key));
+
+}

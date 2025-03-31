@@ -18,11 +18,11 @@ export async function generateStaticParams() {
 export default async function StudentPage({
   params,
 }: {
-  params: any;
+  params: Promise<{id: string}>;
 }) {
-  const id = Number(params.id);
-  const subjects = await getAvailableSubjectsByStudent(id);
-  const fixedShifts = await getFixedShiftByStudent(id);
+  const { id } = await params;;
+  const subjects = await getAvailableSubjectsByStudent(Number(id));
+  const fixedShifts = await getFixedShiftByStudent(Number(id));
   const fixedSubjectIds = fixedShifts.map((shift) => shift.subject);
   console.log(subjects);
   return (

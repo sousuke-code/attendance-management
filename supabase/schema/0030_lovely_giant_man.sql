@@ -1,0 +1,1 @@
+ALTER TABLE "attendace" ALTER COLUMN "checkOut" DROP NOT NULL;
