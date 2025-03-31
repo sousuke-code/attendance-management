@@ -1,46 +1,30 @@
 "use client"
- 
-import * as React from "react"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
- 
+
+import { useState } from "react"
+import DatePicker from "react-date-picker"
+import "react-date-picker/dist/DatePicker.css"
+import "react-calendar/dist/Calendar.css"
+import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
- 
-export function DatePickerDemo() {
-  const [date, setDate] = React.useState<Date>()
- 
+
+export function DateTimePicker() {
+  const [value, setValue] = useState<Date | null>(new Date())
+
   return (
-    <>
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
+    <div className="flex flex-col gap-2">
+      <Label>日付を選択</Label>
+      <div
+        
+      >
+        <DatePicker
+          onChange={(date) => setValue(date instanceof Date ? date : null)}
+          value={value}
+          format="y-MM-dd"
+          clearIcon={null}
+          calendarIcon={null}
         />
-      </PopoverContent>
-    </Popover>
-    <input type="hidden" name="date" value={date ? format(date, "yyyy-MM-dd") : ""}/>
-    </>
+      </div>
+      <input type="hidden" name="date" value={value?.toISOString()} />
+    </div>
   )
 }

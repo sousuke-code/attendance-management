@@ -8,7 +8,7 @@ import { getSuubjects } from "@/repositories/subject";
 import { getStudents } from "@/repositories/user";
 import StudentsSelect from "../StudentsSelect";
 import SubjectsSelect from "../SubjectsSelect";
-import { DatePickerDemo } from "../DatePicker";
+import { DateTimePicker } from "../DatePicker";
 import createNewShiftAction from "@/actions/teacher/createNewShiftAction";
 
 export default async function CreateNewShiftCard({  teacherId} : {teacherId : number}) {
@@ -26,10 +26,7 @@ const students = await getStudents();
     <CardContent>
       <div className="flex flex-col font-bold gap-1">
         <form action={createNewShiftAction}>
-            <div>
-            <label>日付選択</label>
-            <DatePickerDemo />
-            </div>
+            <DateTimePicker />
             <label>時間選択</label>
             <ShiftOption shiftOptions={shiftOptions} />
             <label>生徒選択</label>
