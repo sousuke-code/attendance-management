@@ -5,13 +5,13 @@ import sendRequestMessageToTeachers from "@/domains/slack/sendRequestMessageToTe
 import sendRejectedMessage from "@/domains/slack/sendRejectedMessage";
 import { findTeacherEmailById, getTeacherById } from "@/repositories/user";
 import { AwardIcon } from "lucide-react";
+import { getIncentives } from "@/repositories/incentive";
+import calcIncentiveOption from "@/domains/teacher/calcIncentiveOption";
 
 
 export default async function  sendMessageToTeachersAction(formData: FormData){
     const teacherIds = (formData.getAll("teacherIds"));
     const shiftId= Number(formData.get("shiftId"));
-    console.log(teacherIds);
-    console.log(shiftId);
 
     
     const shift = await getShistSwapListsDetatlsById(shiftId);
@@ -29,6 +29,13 @@ export default async function  sendMessageToTeachersAction(formData: FormData){
             const receiver = await findTeacherEmailById(teacher[0].id);
             if(!receiver[0].email) throw new Error("Teacher not have email");
             const userId =await getUserByEmail(receiver[0].email);
+            const points = teacher[0].point;
+            if(!points) throw new Error(" points not have");
+            const incentives = await calcIncentiveOption(points);
+            const maxIncentive = incentives.reduce((prev,current) => 
+                current.add > prev.add ? current : prev
+            );
+
             if(!userId) throw new Error(" users not have")
 
             await sendRequestMessageToTeachers(userId,[
@@ -36,7 +43,8 @@ export default async function  sendMessageToTeachersAction(formData: FormData){
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: `オーナーからのシフト交換依頼が届いています\n📅 *日付:* ${shift[0].shiftDate}\n🕒 *時間:* ${shift[0].shiftTime}\n👤 *生徒:* ${shift[0].studentName}\n📔 *科目:* ${shift[0].subjectName}\n`,
+                    text: `オーナーからのシフト交換依頼が届いています\n📅 *日付:* ${shift[0].shiftDate}\n🕒 *時間:* ${shift[0].shiftTime}\n👤 *生徒:* ${shift[0].studentName}\n📔 *科目:* ${shift[0].subjectName}\nあなたのポイントは現在${points}です！\nあなたのポイントでは時給+${maxIncentive.add}円の報酬を受け取ることができます！🎉\n
+                    `,
                 },
                 accessory: {
                     type: "button",

@@ -10,8 +10,6 @@ export default async function createNewFixedShiftAction(formData: FormData) {
     const weekday = formData.get("weekday");
     const shiftTimeId = formData.get("shiftTimeId");
 
-    console.log(teacherId, studentId, subjectId,weekday);
-
     await db.insert(fixedShifts).values({
         teacherId: Number(teacherId),
         studentId: Number(studentId),

@@ -8,9 +8,9 @@ export async function generateStaticParams() {
 }
 
 type Props = {
-    params: {
+    params: Promise<{
       id: string;
-    };
+    }>;
 };
 
 export default async function WorkRecordsByTeacherPage({ params } : Props) {

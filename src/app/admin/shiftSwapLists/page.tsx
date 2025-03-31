@@ -38,7 +38,7 @@ export default async function shiftSwapListsPage() {
                     <TableRow>
                         <TableCell>{shift.shiftDate}</TableCell>
                         <TableCell>{shift.shiftTime}</TableCell>
-                        <TableCell>{shift.subjectsName}</TableCell>
+                        <TableCell>{shift.subjectName}</TableCell>
                         <TableCell>{shift.studentName}</TableCell>
                         <TableCell>{shift.receiverName}</TableCell>
                         <TableCell>{shift.reason}</TableCell>

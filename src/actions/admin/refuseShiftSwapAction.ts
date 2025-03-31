@@ -9,8 +9,6 @@ import { redirect } from "next/navigation";
 export async function refuseShiftSwapAction(formData: FormData){
     const id = Number(formData.get("shiftId"))
     const reason = formData.get("reason")
-    console.log(reason)
-    console.log(id)
     if(!id) throw new Error("シフトIdが見つかりません")
     await db.transaction(async (tx: DB) => {
       await updateSwapListsStatusToRejected(tx,id);

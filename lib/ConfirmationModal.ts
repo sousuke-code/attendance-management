@@ -3,7 +3,7 @@ import { ShiftDetail } from "@/db/schema/shift";
 import { ShiftSwapDetail } from "@/db/schema/shift";
 
 export const confirmationModal = (shift: ShiftSwapDetail) : ModalView => {
-    console.log(shift);
+    
     return {
     type: "modal",
     callback_id: "confirmation",

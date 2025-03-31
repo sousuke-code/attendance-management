@@ -28,7 +28,7 @@ export default function ShiftListModal({shift}:{shift: ShiftSwapDetail}) {
                     <p className="text-gray-500">担当生徒名:</p>
                     <p>{shift.studentName}</p>
                     <p className="text-gray-500">科目:</p>
-                    <p>{shift.subjectsName}</p>
+                    <p>{shift.subjectName}</p>
                     <p className="text-gray-500">申請講師名:</p>
                     <p>{shift.requesterName}</p>
                     <p className="text-gray-500">交換講師名:</p>

@@ -9,6 +9,9 @@ import { Table,
 import calcIncentiveOption from "@/domains/teacher/calcIncentiveOption";
 import { getTeacherById } from "@/repositories/user";
 
+export async function generateStaticParams() {
+   return [];
+}
 
 export default async function TeacherPage({params} : {params: Promise<{id : string}>}) {
     const { id } = await params;
