@@ -8,6 +8,8 @@ import { Table,
  } from "@/components/ui/table";
 import calcIncentiveOption from "@/domains/teacher/calcIncentiveOption";
 import { getTeacherById } from "@/repositories/user";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export async function generateStaticParams() {
    return [];
@@ -23,6 +25,13 @@ export default async function TeacherPage({params} : {params: Promise<{id : stri
     const avaliavleIncentive = await calcIncentiveOption(point);
     console.log(avaliavleIncentive);
     return (
+      <>
+      <Link href={`/admin/teacher/${teacher[0].id}/create`}>
+       <Button>
+         シフトの新規作成
+       </Button>
+      </Link>
+
        <Table>
          <TableHeader>
             <TableCell>No</TableCell>
@@ -42,5 +51,6 @@ export default async function TeacherPage({params} : {params: Promise<{id : stri
          </TableBody>
         
        </Table>
+      </>
     )
 }
