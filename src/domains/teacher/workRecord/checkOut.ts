@@ -12,6 +12,11 @@ export async function checkOut(teacherId: number){
     const date = format(attendance[0].checkIn, "yyyy-MM-dd");
     const checkIn = attendance[0].checkIn;
     const startTime = format(attendance[0].checkIn, "HH:mm:ss ");
+    if(attendance[0].checkOut){   
+        return {
+            message: "既に退勤済みです",
+        }
+    }
 
     const workRange = {
         start: checkIn,

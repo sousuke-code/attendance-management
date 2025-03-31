@@ -51,6 +51,11 @@ export async function checkOutAction(previousState: FormState,formData: FormData
         }
     }
 
+    if(!result?.needsInput && result?.message === "既に退勤済みです"){
+      console.log("既に退勤済みです");
+      return{ message: "既に退勤済みです" }
+    }
+
     return {
         message: null,
         success: true,

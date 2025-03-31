@@ -8,9 +8,10 @@ import { checkOutAction } from "@/actions/workReacord/checkOutActio";
 import { Textarea } from "./ui/textarea";
 import { format } from "date-fns";
 import { formatMinutesToHourMinutes } from "@/domains/formatMinutesToHourMinutes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { Input } from "./ui/input";
+import { Reddit_Sans_Condensed } from "next/font/google";
 
 export default function CheckOutCard() {
   const router = useRouter();
@@ -19,15 +20,27 @@ export default function CheckOutCard() {
   const [state, formAction] = useFormState(checkOutAction, { message: null });
   const [reasons, setReasons] = useState<string[]>(state.officeTime?.map(() => "") ?? []);
 
+
   const handleReasonChange = (index: number, value: string) => {
     const updates = [...reasons];
     updates[index] = value;
     setReasons(updates);
   }
 
+  useEffect(() => {
+    if(state.officeTime){
+        setReasons(state.officeTime.map(() => ""));
+    }
+   }, [state.officeTime]);
   const handleSubmit = async() => {
     if(!state.officeTime){
         alert("事務時間が取得できていません");
+        return;
+    }
+
+    const isEmpty = reasons.some((reason) => reason.trim() === "");
+    if(isEmpty){
+        alert("事務時間の理由を入力してください");
         return;
     }
 
