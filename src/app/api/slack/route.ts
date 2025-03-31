@@ -24,6 +24,7 @@ import { th } from "@faker-js/faker";
 import { ErrorModalForAlredy } from "../../../../lib/ErrorModalForAlready";
 import sendMessageToDM from "@/domains/slack/sendMessageToDM";
 import { ErrorModalForSamePerson } from "@/lib/ErrorModalForSamePerson";
+import { cp } from "fs";
 
 export const slackClient = new WebClient(process.env.SLACK_TOKEN);
 
@@ -50,6 +51,11 @@ export async function POST(req: NextRequest) {
         view: shiftModal,
       });
       return NextResponse.json({ text: "Modal opened" });
+    } else if (body.command === "/シフト交換(ローカル)") {
+      await slackClient.views.open({
+        trigger_id: body.trigger_id,
+        view: shiftModal,
+      });
     }
 
     if (body.payload) {
@@ -237,6 +243,7 @@ export async function POST(req: NextRequest) {
           const teacherId = await getUserByEmail(email);
           if (!teacherId) throw new Error("Teacher not found");
           const hasShiftSwapList = await findShiftSwapListByShiftId(data.id);
+          console.log("hasShiftSwapList:", hasShiftSwapList);
           if (hasShiftSwapList) {
             const receiver = await findTeacherByEmail(email);
             const receiverId = receiver[0]?.id;
@@ -252,7 +259,7 @@ export async function POST(req: NextRequest) {
             console.log("receiverId:", receiverId);
 
             await updateSwapListsStatus(data.id, receiverId);
-            await sendMessageToDM(teacherId, "appied");
+            await sendMessageToDM(teacherId, "applied");
             return NextResponse.json({
               response_action: "clear",
             });
