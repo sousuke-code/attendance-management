@@ -4,13 +4,13 @@ import { toast } from "sonner"
 
 export default function RecruitmentButton() {
     return (
-      <Button className="mb-2 bg-blue-500 font-bold text-md "
+      <Button className="mb-2 bg-blue-500 font-bold text-md hover:bg-blue-600" size={"sm"}
       onClick={() => 
         toast("シフト募集を呼びかけました",{
         })
       }
       >
-        募集を呼びかける
+       slackで募集 
       </Button>
     )
 }
