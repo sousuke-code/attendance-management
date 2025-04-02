@@ -33,7 +33,7 @@ export default function WorkRecordFilterClient({ workRecords} : {workRecords : W
 
     return (
         <>
-        <div className="mb-3">
+        <div className="mb-3 w-1/4 bg-white">
         <Select onValueChange={setSelectedMonth}>
             <SelectTrigger>
                 <SelectValue placeholder="月を選択" />
