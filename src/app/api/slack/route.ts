@@ -167,69 +167,9 @@ export async function POST(req: NextRequest) {
         if (!email) throw new Error("Email not found");
         const teacher = await findTeacherByEmail(email);
         const teacherId = teacher[0]?.id;
+        await createShiftSwapList(shiftId, studentId, reason, teacherId);
+        return NextResponse.json({ response_action: "clear" });
 
-        const response = NextResponse.json({ response_action: "clear" });
-
-        (async () => {
-          try {
-            console.log(studentId);
-            await createShiftSwapList(shiftId, studentId, reason, teacherId);
-
-            // if (isAfter(date, nowDate) && isBefore(date, oneWeekAfter)) {
-            //   const teachers = await getTeacherBySubject(data.subjectId);
-
-            //   for (const teacher of teachers) {
-            //     const teacherEmail = teacher.teacherEmail;
-            //     if (!teacherEmail) continue;
-
-            //     const id = await getUserByEmail(teacherEmail);
-            //     if (!id) continue;
-
-            //     await sendShiftRecruitmentByUser(id, [
-            //       {
-            //         type: "section",
-            //         text: {
-            //           type: "mrkdwn",
-            //           text: `${data.teacherName}さんからのシフト交換依頼が届いています`,
-            //         },
-            //       },
-            //       {
-            //         type: "section",
-            //         fields: [
-            //           { type: "mrkdwn", text: `*日程:*\n${data.shiftDate}` },
-            //           { type: "mrkdwn", text: `*時間:*\n${data.shiftTime}` },
-            //           {
-            //             type: "mrkdwn",
-            //             text: `*生徒名:*\n${data.studentName}`,
-            //           },
-            //           { type: "mrkdwn", text: `*科目:*\n${data.subjectName}` },
-            //         ],
-            //       },
-            //       {
-            //         type: "actions",
-            //         elements: [
-            //           {
-            //             type: "button",
-            //             text: {
-            //               type: "plain_text",
-            //               emoji: true,
-            //               text: "交換する",
-            //             },
-            //             style: "primary",
-            //             value: JSON.stringify(data),
-            //             action_id: "via_dm",
-            //           },
-            //         ],
-            //       },
-            //     ]);
-            //   }
-            // }
-          } catch (err) {
-            console.error("シフト交換の非同期処理でエラー:", err);
-          }
-        })();
-
-        return response;
       }
 
       //　DMでの交換申請
