@@ -37,6 +37,7 @@ export default async function StudentsForAdminPage() {
         <TableHeader>
           <TableRow>
             <TableHead className="font-bold">生徒名</TableHead>
+            <TableHead className="font-bold">学年</TableHead>
             <TableHead className="font-bold">未登録の授業数</TableHead>
           </TableRow>
         </TableHeader>
@@ -47,6 +48,9 @@ export default async function StudentsForAdminPage() {
                 <Link href={`/admin/students/${student.id}`}>
                   {student.name}
                 </Link>
+              </TableCell>
+              <TableCell>
+                { student.grade}
               </TableCell>
               <TableCell>
                 {student.unregisteredCount > 0
