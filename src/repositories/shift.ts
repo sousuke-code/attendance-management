@@ -1,4 +1,4 @@
-import { eq, and, inArray,aliasedTable } from "drizzle-orm";
+import { eq, and, inArray,aliasedTable, desc } from "drizzle-orm";
 import { DB, db } from "../../db";
 import { shifts, shiftOptions, shiftSwapLists, fixedShifts } from "@/db/schema/shift";
 import { Id } from "@slack/web-api/dist/types/response/RtmStartResponse";
@@ -83,7 +83,7 @@ export async function findShiftsByUser(email: string, shiftOption: number[], shi
 
 
 export async function getShiftSwapLists(){
-    return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending"));
+    return db.select().from(shiftSwapDetails).where(eq(shiftSwapDetails.status, "pending")).orderBy(desc(shiftSwapDetails.shiftDate));
 }
 
 export async function getShiftSwapListsByIds(ids:number[]): Promise<ShiftSwapDetail[]>{
