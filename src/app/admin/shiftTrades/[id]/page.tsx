@@ -38,7 +38,6 @@ export default async function ShiftTradePage({ params }: any ) {
               <TableHead></TableHead>
               <TableHead>講師名</TableHead>
               <TableHead>メールアドレス</TableHead>
-              <TableHead>所持ポイント</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -49,7 +48,6 @@ export default async function ShiftTradePage({ params }: any ) {
                 </TableCell>
                 <TableCell>{teacher.name}</TableCell>
                 <TableCell>{teacher.email}</TableCell>
-                <TableCell>{teacher.point}</TableCell>
               </TableRow>
             ))}
           </TableBody>
