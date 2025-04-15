@@ -1,5 +1,8 @@
 import { FC, ReactNode } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { client } from "../../../supabase/supabase";
+import { redirect } from "next/navigation";
 
 const ListItem: FC<{ href: string; children: ReactNode }> = ({
   children,
@@ -17,8 +20,16 @@ export default async function AdminLayout({
 }: {
   children: ReactNode;
 }) {
+  const session = await client.auth.getSession();
+  if(!session.data.session){
+    redirect("/");
+  }
   return (
     <div className="h-screen w-screen grid grid-rows-[auto,1fr] bg-customGray">
+       <form action="">
+        <Button>ログアウトする
+        </Button>
+       </form>
         {/* ヘッダーを入れたい */}
       <div className="grid grid-cols-[auto,1fr]"> 
         <div className="border-r">

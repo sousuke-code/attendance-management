@@ -1,5 +1,7 @@
 "use server";
+
 import { client } from "../../../supabase/supabase";
+import { redirect } from "next/navigation";
 
 export default async function signInAction(formData: FormData) {
   const email = formData.get("email") as string;
@@ -12,4 +14,5 @@ export default async function signInAction(formData: FormData) {
     console.error("Error signing in:", error);
   }
   console.log("data", data);
+  redirect("/admin");
 }
