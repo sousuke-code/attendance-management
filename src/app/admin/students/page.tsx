@@ -33,7 +33,7 @@ export default async function StudentsForAdminPage() {
 
   return (
     <>
-      <Table>
+      <Table className="hadow rounded-sm bg-white p10 mt-2">
         <TableHeader>
           <TableRow>
             <TableHead className="font-bold">生徒名</TableHead>
