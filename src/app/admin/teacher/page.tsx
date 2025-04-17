@@ -7,14 +7,6 @@ import { Table,
     TableHeader,
     TableRow,
  } from "@/components/ui/table";
-import { Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
- } from "@/components/ui/select";
 import Link from "next/link";
 import calcIncentiveOption from "@/domains/teacher/calcIncentiveOption";
 import { Button } from "@/components/ui/button";
