@@ -1,5 +1,5 @@
 "use server";
-import { client } from "../../../supabase/supabase";
+import { createSupabaseActionClient } from "../../../supabase/supabase";
 
 export default async function signUpAction(formData: FormData) {
   const email = formData.get("email") as string;
@@ -7,6 +7,7 @@ export default async function signUpAction(formData: FormData) {
   if(!email || !password){
     throw new Error("入力されていません");
   }
+  const client = createSupabaseActionClient();
   const { data, error} = await client.auth.signUp({ email, password });
   if (error) {
     console.error("Error signing in:", error);

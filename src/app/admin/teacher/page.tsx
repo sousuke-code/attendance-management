@@ -54,6 +54,7 @@ export default async function TeacherAdminPage() {
                <TableCell></TableCell>
             </TableHeader>
             { teachers.map((teacher) => (
+            <TableBody>
             <TableRow className="border-b px-4 py-2">
             <TableCell>
                 <Link href={`/admin/teacher/${teacher.id}`}>
@@ -70,6 +71,7 @@ export default async function TeacherAdminPage() {
                     </Link>
                 </TableCell>
             </TableRow>
+            </TableBody>
 
             ))}
          </Table>

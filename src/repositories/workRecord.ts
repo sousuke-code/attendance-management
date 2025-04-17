@@ -17,6 +17,7 @@ export async function getWorkRecords(){
     .orderBy(desc(workRecords.createdAt));
 }
 
+
 export async function getWorkRecordsByTeacher(teacherId: number){
     return db.select().from(workRecords).where(eq(workRecords.teacherId, teacherId));
 }
