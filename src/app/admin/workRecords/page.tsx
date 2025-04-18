@@ -4,17 +4,17 @@ import { getWorkRecords } from "@/repositories/workRecord";
 import { format } from "date-fns";
 import Link from "next/link";
 import ExportCSVButton from "@/components/ExportSVButton";
+import { getTeachers } from "@/repositories/user";
 
 
 export default async function workRecordsPage() {
     const workRecords = await getWorkRecords();
-
     
     return (
         <>
         <h1 className="font-bold mb-4 text-xl">事務時間一覧</h1>
         <ExportCSVButton workRecords={workRecords} />
-         <Table className="w-full rounded-xl shadow-lg border-2 border-solid text-lg bg-white">
+         <Table className="shadow rounded-sm bg-white p10 mt-2">
             <TableHeader className="font-bold text-lg border-b">
                 <TableRow>
                 <TableCell>日付</TableCell>

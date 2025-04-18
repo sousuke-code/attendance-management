@@ -19,8 +19,8 @@ export default async function shiftSwapListsPage() {
     return (
         <>
         <h1 className="text-2xl font-bold mb-4">シフト交換承認待ち一覧</h1>
-        <Table className="rounded-xl shadow-lg border-2 border-solid text-lg bg-white">
-            <TableHeader>
+        <Table className="shadow rounded-sm bg-white p10 mt-2">
+            <TableHeader className="font-bold text-lg border-b">
                 <TableRow>
                     <TableHead className="font-bold">日付</TableHead>
                     <TableHead className="font-bold">コマ</TableHead>
@@ -35,12 +35,12 @@ export default async function shiftSwapListsPage() {
             { shiftLists.map((shift) => (
                 shift.receiverId &&
                 <TableBody>
-                    <TableRow>
+                    <TableRow className="border-b px-4 py-2">
                         <TableCell>{shift.shiftDate}</TableCell>
                         <TableCell>{shift.shiftTime}</TableCell>
                         <TableCell>{shift.subjectName}</TableCell>
                         <TableCell>{shift.studentName}</TableCell>
-                        <TableCell>{shift.receiverName}</TableCell>
+                        <TableCell>{shift.requesterName}</TableCell>
                         <TableCell>{shift.reason}</TableCell>
                         <TableCell>
                             <ShiftListModal shift={shift} />
