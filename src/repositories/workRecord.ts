@@ -1,7 +1,7 @@
 import { workRecords } from "@/db/schema/work";
 import { db } from "../../db";
 import { teachers } from "@/db/schema/teacher";
-import { desc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 
 export async function getWorkRecords(){
     return db.select({
@@ -14,7 +14,7 @@ export async function getWorkRecords(){
     })
     .from(workRecords)
     .innerJoin(teachers, eq(workRecords.teacherId, teachers.id))
-    .orderBy(desc(workRecords.createdAt));
+    .orderBy(asc(workRecords.createdAt));
 }
 
 

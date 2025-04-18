@@ -22,8 +22,8 @@ export default function ShiftSwapListsTable({
   return (
     <form action={postShiftRecruitmentAction}>
       <RecruitmentButton />
-      <Table className="rounded-xl shadow-lg border-2 border-solid text-lg bg-white">
-        <TableHeader>
+      <Table className="shadow rounded-sm bg-white p10 mt-2">
+        <TableHeader className="font-bold text-lg border-b">
           <TableRow>
             <TableHead></TableHead>
             <TableHead className="font-bold">日付</TableHead>
@@ -39,7 +39,7 @@ export default function ShiftSwapListsTable({
           (shift) =>
                       
               <TableBody>
-                <TableRow>
+                <TableRow className="border-b px-4 py-2">
                   <TableCell>
                     <Checkbox name="shiftSwapIds" value={shift.id} />
                   </TableCell>

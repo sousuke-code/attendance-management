@@ -39,15 +39,17 @@ export async function checkOut(teacherId: number){
         minutes: differenceInMinutes(range.end, range.start),
     }));
 
-    const totalOfficeMinutes = officeTimeWithMinutes.reduce(
+    const filterOfficeTime = officeTimeWithMinutes.filter((range) => range.minutes > 10 && range.minutes < 720);
+
+    const totalOfficeMinutes = filterOfficeTime.reduce(
         (sum, r) => sum + r.minutes,
         0
     );
 
-    if(officeTimeWithMinutes.length > 0){
+    if(filterOfficeTime.length > 0){
         return {
             needsInput: true,
-            officeTime: officeTimeWithMinutes,
+            officeTime: filterOfficeTime,
             attendanceId: attendance[0].id,
         };
     }
