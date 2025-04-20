@@ -4,9 +4,9 @@ import { Select, SelectContent, SelectGroup,SelectItem,SelectLabel, SelectTrigge
 import WorkRecordFilterClient from "@/components/workRecord/WorkRecordFilterClient";
 import { getTeacherById } from "@/repositories/user";
 
-export async function generateStaticParams() {
-    return [];
-}
+// export async function generateStaticParams() {
+//     return [];
+// }
 
 type Props = {
     params: Promise<{

@@ -13,9 +13,9 @@ import { findAvailableTeachers } from "@/domains/teacher/findAvailableTeachers";
 import { Checkbox } from "@/components/ui/checkbox";
 import sendMessageToTeachersAction from "@/actions/slack/sendMessageToTeachersAction";
 
-export async function generateStaticParams() {
-  return [];
-}
+// export async function generateStaticParams() {
+//   return [];
+// }
 export default async function ShiftTradePage({ params }: any ) {
   const id = Number(params.id);
   const shifts = await getShiftDetailsById(id);

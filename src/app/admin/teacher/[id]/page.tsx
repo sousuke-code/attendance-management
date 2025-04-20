@@ -12,9 +12,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getSubjectsByTeacherId } from "@/repositories/subject";
 
-export async function generateStaticParams() {
-   return [];
-}
+// export async function generateStaticParams() {
+//    return [];
+// }
 
 export default async function TeacherPage({params} : {params: Promise<{id : string}>}) {
     const { id } = await params;
