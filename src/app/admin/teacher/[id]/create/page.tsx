@@ -1,9 +1,9 @@
 import CreateNewShiftCard from "@/components/teacher/CreateNewShiftCard";
 
 
-export async function generateStaticParams() {
-    return [];
-}
+// export async function generateStaticParams() {
+//     return [];
+// }
 
 export default async function createNewShiftByTeacher({ params} :{ params: Promise<{id: string}>}) {
     const { id  } = await params;

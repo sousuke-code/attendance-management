@@ -4,9 +4,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export async function generateStaticParams() {
-    return [];
-}
+// export async function generateStaticParams() {
+//     return [];
+// }
 
 export default  async function availableTeachersPage(props : {
     params: Promise<{id : string}>,
