@@ -20,7 +20,7 @@ export default function WorkRecordFilteredByMonth({ workRecords} : { workRecords
     return (
         <>
         <ExportCSVButton workRecords={filtered} />
-        <div className="mb-3 w-1/4 bg-white">
+        <div className="mb-3 w-1/4 bg-white mt-2">
         <Select onValueChange={setSelectedMonth}>
             <SelectTrigger>
                 <SelectValue placeholder="月を選択" />
