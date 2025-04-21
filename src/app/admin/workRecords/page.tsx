@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import ExportCSVButton from "@/components/ExportSVButton";
 import { getTeachers } from "@/repositories/user";
+import WorkRecordFilteredByMonth from "@/components/workRecord/WorkRecordFilteredByMonth";
 
 
 export default async function workRecordsPage() {
@@ -13,8 +14,8 @@ export default async function workRecordsPage() {
     return (
         <>
         <h1 className="font-bold mb-4 text-xl">事務時間一覧</h1>
-        <ExportCSVButton workRecords={workRecords} />
-         <Table className="shadow rounded-sm bg-white p10 mt-2">
+        {/* <ExportCSVButton workRecords={workRecords} /> */}
+         {/* <Table className="shadow rounded-sm bg-white p10 mt-2">
             <TableHeader className="font-bold text-lg border-b">
                 <TableRow>
                 <TableCell>日付</TableCell>
@@ -36,7 +37,9 @@ export default async function workRecordsPage() {
             </TableRow>
             ))}
 
-         </Table>
+         </Table> */}
+            <WorkRecordFilteredByMonth workRecords={workRecords} />
+
         </>
     )
 }
